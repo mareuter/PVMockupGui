@@ -1,0 +1,3 @@
+This is a mockup of a visualization interface based on ParaView for the 
+Mantid project. The CMake system does not use the build_paraview_client since 
+the code is due to be embedded into the MantidPlot GUI.

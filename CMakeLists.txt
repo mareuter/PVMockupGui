@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(ParaView-Visapp)
+
+# Locate and import ParaView enviroment.
+find_package(ParaView REQUIRED)
+include(${PARAVIEW_USE_FILE})
+include(${ParaView_CMAKE_DIR}/ParaViewPlugins.cmake)
+
+# Setup the include locations.
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/inc
+  ${CMAKE_CURRENT_BINARY_DIR})
+
+# These are the C++ files to be compiled.
+set (INCLUDE_FILES
+  inc/mpMainWindow.h
+)
+set (SOURCE_FILES
+  src/main.cpp
+  src/mpMainWindow.cpp
+  src/TimeControlWidget.cpp
+)
+
+# These are the headers to be preprocessed using
+# Qt's moc preprocessor.
+qt4_wrap_cpp(MOC_SRCS
+  inc/mpMainWindow.h
+  inc/TimeControlWidget.h
+)
+
+# These are the ui files to be processed using
+# Qt's ui file processor.
+qt4_wrap_ui(UI_BUILT_SOURCES
+  inc/mpMainWindow.ui
+  inc/TimeControlWidget.ui
+)
+
+add_executable(visapp ${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS}
+${UI_BUILT_SOURCES})
+target_link_libraries(visapp pqCore pqComponents pqApplicationComponents
+${QT_LIBRARIES})

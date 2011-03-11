@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(ParaView-Visapp)
+project(PVMockupGui)
 
 # Locate and import ParaView enviroment.
 find_package(ParaView REQUIRED)
@@ -36,7 +36,8 @@ qt4_wrap_ui(UI_BUILT_SOURCES
   inc/TimeControlWidget.ui
 )
 
-add_executable(visapp ${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS}
-${UI_BUILT_SOURCES})
-target_link_libraries(visapp pqCore pqComponents pqApplicationComponents
+add_executable(${CMAKE_PROJECT_NAME}
+${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES})
+target_link_libraries(${CMAKE_PROJECT_NAME}
+pqCore pqComponents pqApplicationComponents
 ${QT_LIBRARIES})

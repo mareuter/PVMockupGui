@@ -96,5 +96,6 @@ void mpMainWindow::onCutButtonClicked()
     pqDataRepresentation *srep = builder->createDataRepresentation(
             this->Slice->getOutputPort(0), this->View);
     this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
+    this->ActiveSourceRepr->setVisible(false);
     this->View->render();
 }

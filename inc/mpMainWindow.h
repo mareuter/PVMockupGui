@@ -6,6 +6,7 @@
 #include <QPointer>
 
 class pqRenderView;
+class pqPipelineRepresentation;
 class pqPipelineSource;
 
 class mpMainWindow : public QMainWindow
@@ -28,6 +29,9 @@ private:
     Ui::mpMainWindow ui;
     QPointer<pqRenderView> View;
     QPointer<pqPipelineSource> ActiveSource;
+    QPointer<pqPipelineSource> Slice;
+    QPointer<pqPipelineRepresentation> ActiveSourceRepr;
+    QPointer<pqPipelineRepresentation> SliceRepr;
 };
 
 #endif // mpMAINWINDOW_H

@@ -8,9 +8,11 @@
 #include "pqObjectBuilder.h"
 #include "pqOutputPort.h"
 #include "pqParaViewBehaviors.h"
+#include "pqPipelineRepresentation.h"
 #include "pqPipelineSource.h"
 #include "pqRenderView.h"
 #include "pqServer.h"
+#include "pqServerResource.h"
 #include "vtkSMProxyManager.h"
 #include "vtkSMReaderFactory.h"
 
@@ -68,15 +70,17 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   {
       builder->destroy(this->ActiveSource);
   }
+  if (this->Slice)
+  {
+      builder->destroy(this->Slice);
+  }
   this->ActiveSource = source;
 
   // Show the data
-  builder->createDataRepresentation(this->ActiveSource->getOutputPort(0), this->View);
-
-  QPointer<pqPipelineSource> slice = builder->createFilter("filters", "Cut",
-            source);
-  builder->createDataRepresentation(slice->getOutputPort(0), this->View);
-
+  pqDataRepresentation *drep = builder->createDataRepresentation(
+          this->ActiveSource->getOutputPort(0), this->View);
+  this->ActiveSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
+  
   // Reset the camera to ensure that the data is visible.
   this->View->resetDisplay();
   
@@ -86,9 +90,11 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 
 void mpMainWindow::onCutButtonClicked()
 {
+    // Apply cut to currently viewed data
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
-    QPointer<pqPipelineSource> slice = builder->createFilter("filters", "Cut",
-            this->ActiveSource);
-    builder->createDataRepresentation(slice->getOutputPort(0), this->View);
+    this->Slice = builder->createFilter("filters", "Cut", this->ActiveSource);
+    pqDataRepresentation *srep = builder->createDataRepresentation(
+            this->Slice->getOutputPort(0), this->View);
+    this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     this->View->render();
 }

@@ -1,6 +1,7 @@
 #include "mpMainWindow.h"
 
 #include "TimeControlWidget.h"
+#include "pq3DWidgetFactory.h"
 #include "pqActiveObjects.h"
 #include "pqApplicationCore.h"
 #include "pqDefaultViewBehavior.h"
@@ -13,6 +14,8 @@
 #include "pqRenderView.h"
 #include "pqServer.h"
 #include "pqServerResource.h"
+#include "vtkSMNewWidgetRepresentationProxy.h"
+#include "vtkSMPropertyHelper.h"
 #include "vtkSMProxyManager.h"
 #include "vtkSMReaderFactory.h"
 
@@ -33,6 +36,8 @@ mpMainWindow::mpMainWindow(QWidget *parent)
   QObject::connect(ui.cutButton, SIGNAL(clicked()), this,
           SLOT(onCutButtonClicked()));
 
+  //pqUndoReaction
+  //QObject::connect()
 
   // Initialize all readers available to ParaView. Now our application can load
   // all types of datasets supported by ParaView.
@@ -94,8 +99,19 @@ void mpMainWindow::onCutButtonClicked()
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->Slice = builder->createFilter("filters", "Cut", this->ActiveSource);
     pqDataRepresentation *srep = builder->createDataRepresentation(
-            this->Slice->getOutputPort(0), this->View);
+            this->Slice->getOutputPort(0), this->View); 
     this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     this->ActiveSourceRepr->setVisible(false);
+
+    vtkSMNewWidgetRepresentationProxy* widget =
+            pqApplicationCore::instance()->get3DWidgetFactory()->
+            get3DWidget("ImplicitPlaneWidgetRepresentation", 
+            pqActiveObjects::instance().activeServer());
+    widget->Print(std::cout);
+    vtkSMPropertyHelper(widget->GetRepresentationProxy(), "DrawPlane").Set(0, 1);
+    std::cout << "Help" << std::endl;
+    widget->UpdateVTKObjects();
+    widget->UpdatePropertyInformation();
+
     this->View->render();
 }

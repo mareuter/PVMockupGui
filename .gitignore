@@ -8,4 +8,4 @@ install_manifest.txt
 nbproject/
 # Qt
 ui_*.h
-inc/moc_*.h
+moc_*.cxx

@@ -1,0 +1,11 @@
+# CMake 
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+# Netbeans
+nbproject/
+# Qt
+ui_*.h
+inc/moc_*.h

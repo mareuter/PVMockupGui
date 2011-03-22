@@ -7,6 +7,7 @@
 #include "pqDefaultViewBehavior.h"
 #include "pqLoadDataReaction.h"
 #include "pqObjectBuilder.h"
+#include "pqObjectInspectorWidget.h"
 #include "pqOutputPort.h"
 #include "pqParaViewBehaviors.h"
 #include "pqPipelineRepresentation.h"
@@ -14,10 +15,16 @@
 #include "pqRenderView.h"
 #include "pqServer.h"
 #include "pqServerResource.h"
+#include "vtkSMImplicitPlaneRepresentationProxy.h"
 #include "vtkSMNewWidgetRepresentationProxy.h"
 #include "vtkSMPropertyHelper.h"
 #include "vtkSMProxyManager.h"
 #include "vtkSMReaderFactory.h"
+#include "vtkSMRenderViewProxy.h"
+#include "vtkRenderWindow.h"
+#include "vtkRenderWindowInteractor.h"
+
+#include <QHBoxLayout>
 
 #include <iostream>
 
@@ -103,15 +110,21 @@ void mpMainWindow::onCutButtonClicked()
     this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     this->ActiveSourceRepr->setVisible(false);
 
+    QHBoxLayout *hbox = new QHBoxLayout(this->ui.tab);
+    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(this->ui.tab);
+    hbox->addWidget(inspector);
+    inspector->setProxy(this->Slice);
+
     vtkSMNewWidgetRepresentationProxy* widget =
             pqApplicationCore::instance()->get3DWidgetFactory()->
             get3DWidget("ImplicitPlaneWidgetRepresentation", 
             pqActiveObjects::instance().activeServer());
-    widget->Print(std::cout);
-    vtkSMPropertyHelper(widget->GetRepresentationProxy(), "DrawPlane").Set(0, 1);
+    vtkSMPropertyHelper(widget, "Enabled").Set(0, true);
+    vtkSMPropertyHelper(widget, "Visibility").Set(0, true);
+    vtkSMPropertyHelper(widget, "DrawPlane").Set(0, true);
     std::cout << "Help" << std::endl;
-    widget->UpdateVTKObjects();
-    widget->UpdatePropertyInformation();
+    //widget->UpdateVTKObjects();
+    //widget->UpdatePropertyInformation();
 
     this->View->render();
 }

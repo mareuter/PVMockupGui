@@ -114,7 +114,7 @@ void mpMainWindow::onCutButtonClicked()
     pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(this->ui.tab);
     hbox->addWidget(inspector);
     inspector->setProxy(this->Slice);
-
+    /*
     vtkSMNewWidgetRepresentationProxy* widget =
             pqApplicationCore::instance()->get3DWidgetFactory()->
             get3DWidget("ImplicitPlaneWidgetRepresentation", 
@@ -123,6 +123,7 @@ void mpMainWindow::onCutButtonClicked()
     vtkSMPropertyHelper(widget, "Visibility").Set(0, true);
     vtkSMPropertyHelper(widget, "DrawPlane").Set(0, true);
     std::cout << "Help" << std::endl;
+    */
     //widget->UpdateVTKObjects();
     //widget->UpdatePropertyInformation();
 

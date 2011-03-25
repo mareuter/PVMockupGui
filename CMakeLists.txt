@@ -41,6 +41,10 @@ qt4_wrap_ui(UI_BUILT_SOURCES
   inc/TimeControlWidget.ui
 )
 
+qt4_add_resources(RCS_SOURCES
+    configuration.qrc
+)
+
 link_directories(${MANTID_SUBPROJECT_HOME})
 
 add_executable(${CMAKE_PROJECT_NAME}

@@ -51,7 +51,9 @@ mpMainWindow::mpMainWindow(QWidget *parent)
 
   // Initialize all readers available to ParaView. Now our application can load
   // all types of datasets supported by ParaView.
-  vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
+  pqApplicationCore::instance()->loadConfiguration(QString(":/config/readers.xml"));
+  //vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->LoadConfigurationFile(":/config/readers.xml");
+  //vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
 
   // Create the view.
   this->View = this->createRenderView(ui.renderFrame);

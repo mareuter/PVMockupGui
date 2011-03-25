@@ -6,6 +6,9 @@ cmake_install.cmake
 install_manifest.txt
 # Netbeans
 nbproject/
+# Eclipse
+.project
+.cproject
 # Qt
 ui_*.h
 moc_*.cxx

@@ -15,7 +15,7 @@ class mpMainWindow : public QMainWindow
 
 public:
     mpMainWindow(QWidget *parent = 0);
-    ~mpMainWindow();
+    virtual ~mpMainWindow();
 
 protected slots:
     void onDataLoaded(pqPipelineSource *);

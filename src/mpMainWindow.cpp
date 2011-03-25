@@ -136,7 +136,7 @@ void mpMainWindow::onCutButtonClicked()
 void mpMainWindow::onRebinButtonClicked()
 {
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
-    this->RebinCut = builder->createFilter("filters", "RebinningCutter", 
+    this->RebinCut = builder->createFilter("filters", "RebinningCutter",
             this->ActiveSource);
     pqDataRepresentation *srep = builder->createDataRepresentation(
             this->RebinCut->getOutputPort(0), this->View); 

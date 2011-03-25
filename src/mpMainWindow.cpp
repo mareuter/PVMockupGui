@@ -91,6 +91,14 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   }
   this->ActiveSource = source;
 
+  // Create the source parameter options
+  QWidget *tab = new QWidget();
+  QHBoxLayout *hbox = new QHBoxLayout(tab);
+  pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
+  hbox->addWidget(inspector);
+  inspector->setProxy(this->ActiveSource);
+  this->ui.tabWidget->addTab(tab, "source");
+
   // Show the data
   pqDataRepresentation *drep = builder->createDataRepresentation(
           this->ActiveSource->getOutputPort(0), this->View);
@@ -113,10 +121,13 @@ void mpMainWindow::onCutButtonClicked()
     this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     this->ActiveSourceRepr->setVisible(false);
 
-    QHBoxLayout *hbox = new QHBoxLayout(this->ui.tab);
-    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(this->ui.tab);
+    QWidget *tab = new QWidget();
+    QHBoxLayout *hbox = new QHBoxLayout(tab);
+    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
     hbox->addWidget(inspector);
     inspector->setProxy(this->Slice);
+    this->ui.tabWidget->addTab(tab, "cut");
+
     /*
     vtkSMNewWidgetRepresentationProxy* widget =
             pqApplicationCore::instance()->get3DWidgetFactory()->
@@ -143,9 +154,11 @@ void mpMainWindow::onRebinButtonClicked()
     this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     //this->ActiveSourceRepr->setVisible(false);
 
-    QHBoxLayout *hbox = new QHBoxLayout(this->ui.tab_2);
-    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(this->ui.tab_2);
+    QWidget *tab = new QWidget();
+    QHBoxLayout *hbox = new QHBoxLayout(tab);
+    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
     hbox->addWidget(inspector);
     inspector->setProxy(this->RebinCut);
+    this->ui.tabWidget->addTab(tab, "rebincut");
 
 }

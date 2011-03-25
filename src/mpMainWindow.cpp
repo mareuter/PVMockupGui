@@ -43,6 +43,9 @@ mpMainWindow::mpMainWindow(QWidget *parent)
   QObject::connect(ui.cutButton, SIGNAL(clicked()), this,
           SLOT(onCutButtonClicked()));
 
+  // Set the rebin button to create the RebinCutter operator
+  QObject::connect(ui.rebinButton, SIGNAL(clicked()), this, 
+          SLOT(onRebinButtonClicked()));
   //pqUndoReaction
   //QObject::connect()
 
@@ -128,4 +131,21 @@ void mpMainWindow::onCutButtonClicked()
     //widget->UpdatePropertyInformation();
 
     this->View->render();
+}
+
+void mpMainWindow::onRebinButtonClicked()
+{
+    pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
+    this->RebinCut = builder->createFilter("filters", "RebinningCutter", 
+            this->ActiveSource);
+    pqDataRepresentation *srep = builder->createDataRepresentation(
+            this->RebinCut->getOutputPort(0), this->View); 
+    this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
+    //this->ActiveSourceRepr->setVisible(false);
+
+    QHBoxLayout *hbox = new QHBoxLayout(this->ui.tab_2);
+    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(this->ui.tab_2);
+    hbox->addWidget(inspector);
+    inspector->setProxy(this->RebinCut);
+
 }

@@ -20,6 +20,7 @@ public:
 protected slots:
     void onDataLoaded(pqPipelineSource *);
     void onCutButtonClicked();
+    void onRebinButtonClicked();
 
 protected:
     pqRenderView *createRenderView(QWidget *container);
@@ -30,8 +31,10 @@ private:
     QPointer<pqRenderView> View;
     QPointer<pqPipelineSource> ActiveSource;
     QPointer<pqPipelineSource> Slice;
+    QPointer<pqPipelineSource> RebinCut;
     QPointer<pqPipelineRepresentation> ActiveSourceRepr;
     QPointer<pqPipelineRepresentation> SliceRepr;
+    QPointer<pqPipelineRepresentation> RebinCutRepr;
 };
 
 #endif // mpMAINWINDOW_H

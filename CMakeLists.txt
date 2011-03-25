@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+# Add the path to our custom 'find' modules
+set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build")
+
 project(PVMockupGui)
 
 # Locate and import ParaView enviroment.
@@ -11,6 +14,12 @@ include(${ParaView_CMAKE_DIR}/ParaViewPlugins.cmake)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/inc
   ${CMAKE_CURRENT_BINARY_DIR})
+
+set (MANTID_SUBPROJECT_HOME "$ENV{HOME}/Mantid/Code/debug/bin")
+#include(SetMantidSubprojects)
+
+#set_mantid_subprojects(Vates/VatesAPI)
+#set_mantid_subprojects(Vates/ParaViewPlugins/ParaViewFilters)
 
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
@@ -36,8 +45,17 @@ qt4_wrap_ui(UI_BUILT_SOURCES
   inc/TimeControlWidget.ui
 )
 
+#add_paraview_plugin(ImagePlane "1.0"
+#SERVER_MANAGER_XML resources/ImagePlane.xml)
+
+#message(WARNING, "LIBS: ${MANTID_SUBPROJECT_LIBS}")
+
+link_directories(${MANTID_SUBPROJECT_HOME})
+
 add_executable(${CMAKE_PROJECT_NAME}
 ${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES})
+
 target_link_libraries(${CMAKE_PROJECT_NAME}
 pqCore pqComponents pqApplicationComponents
+MantidVatesAPI
 ${QT_LIBRARIES})

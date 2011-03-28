@@ -57,7 +57,7 @@ mpMainWindow::mpMainWindow(QWidget *parent)
   // Commented this out to only use Mantid supplied readers
   // Initialize all readers available to ParaView. Now our application can load
   // all types of datasets supported by ParaView.
-  //vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
+  vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
 
   // Create the view.
   this->View = this->createRenderView(ui.renderFrame);

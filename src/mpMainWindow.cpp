@@ -1,10 +1,12 @@
 #include "mpMainWindow.h"
 
 #include "TimeControlWidget.h"
+#include "pq3DWidget.h"
 #include "pq3DWidgetFactory.h"
 #include "pqActiveObjects.h"
 #include "pqApplicationCore.h"
 #include "pqDefaultViewBehavior.h"
+#include "pqImplicitPlaneWidget.h"
 #include "pqLoadDataReaction.h"
 #include "pqObjectBuilder.h"
 #include "pqObjectInspectorWidget.h"
@@ -15,6 +17,9 @@
 #include "pqRenderView.h"
 #include "pqServer.h"
 #include "pqServerResource.h"
+#include "vtkDataObject.h"
+#include "vtkProperty.h"
+#include "vtkPVDataInformation.h"
 #include "vtkSMImplicitPlaneRepresentationProxy.h"
 #include "vtkSMNewWidgetRepresentationProxy.h"
 #include "vtkSMPropertyHelper.h"
@@ -51,9 +56,10 @@ mpMainWindow::mpMainWindow(QWidget *parent)
 
   // Initialize all readers available to ParaView. Now our application can load
   // all types of datasets supported by ParaView.
-  pqApplicationCore::instance()->loadConfiguration(QString(":/config/readers.xml"));
+  //pqApplicationCore::instance()->loadConfiguration(QString(":/config/SQWReaderGUI.xml"));
   //vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->LoadConfigurationFile(":/config/readers.xml");
-  //vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
+  vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
+  //vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->LoadConfigurationFile(":/config/readers.xml");
 
   // Create the view.
   this->View = this->createRenderView(ui.renderFrame);
@@ -99,12 +105,15 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
   hbox->addWidget(inspector);
   inspector->setProxy(this->ActiveSource);
-  this->ui.tabWidget->addTab(tab, "source");
+  this->ui.tabWidget->addTab(tab, this->ActiveSource->getSMName());
 
   // Show the data
   pqDataRepresentation *drep = builder->createDataRepresentation(
           this->ActiveSource->getOutputPort(0), this->View);
+  vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
+  drep->getProxy()->UpdateVTKObjects();
   this->ActiveSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
+  this->ActiveSourceRepr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
   // Reset the camera to ensure that the data is visible.
   this->View->resetDisplay();
@@ -130,18 +139,17 @@ void mpMainWindow::onCutButtonClicked()
     inspector->setProxy(this->Slice);
     this->ui.tabWidget->addTab(tab, "cut");
 
-    /*
-    vtkSMNewWidgetRepresentationProxy* widget =
-            pqApplicationCore::instance()->get3DWidgetFactory()->
-            get3DWidget("ImplicitPlaneWidgetRepresentation", 
-            pqActiveObjects::instance().activeServer());
-    vtkSMPropertyHelper(widget, "Enabled").Set(0, true);
-    vtkSMPropertyHelper(widget, "Visibility").Set(0, true);
-    vtkSMPropertyHelper(widget, "DrawPlane").Set(0, true);
-    std::cout << "Help" << std::endl;
-    */
-    //widget->UpdateVTKObjects();
-    //widget->UpdatePropertyInformation();
+    QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->Slice->getProxy(),
+    		vtkSMPropertyHelper(this->Slice->getProxy(), "CutFunction").GetAsProxy());
+    Q_ASSERT(widgets.size() == 1);
+    this->PlaneWidget = widgets[0];
+    this->PlaneWidget->setView(this->View);
+    this->PlaneWidget->setWidgetVisible(true);
+    this->PlaneWidget->select();
+    this->PlaneWidget->resetBounds();
+
+    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
+    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
 
     this->View->render();
 }

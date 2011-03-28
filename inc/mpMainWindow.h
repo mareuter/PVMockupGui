@@ -5,6 +5,7 @@
 #include "ui_mpMainWindow.h"
 #include <QPointer>
 
+class pq3DWidget;
 class pqRenderView;
 class pqPipelineRepresentation;
 class pqPipelineSource;
@@ -35,6 +36,7 @@ private:
     QPointer<pqPipelineRepresentation> ActiveSourceRepr;
     QPointer<pqPipelineRepresentation> SliceRepr;
     QPointer<pqPipelineRepresentation> RebinCutRepr;
+    QPointer<pq3DWidget> PlaneWidget;
 };
 
 #endif // mpMAINWINDOW_H

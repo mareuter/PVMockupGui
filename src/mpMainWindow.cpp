@@ -174,8 +174,8 @@ void mpMainWindow::onRebinButtonClicked()
     this->BoxWidget->select();
     this->BoxWidget->resetBounds();
 
-    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
-    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
+    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->BoxWidget, SLOT(accept()));
+    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
 
     QWidget *tab = new QWidget();
     QHBoxLayout *hbox = new QHBoxLayout(tab);

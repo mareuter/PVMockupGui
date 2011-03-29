@@ -125,14 +125,11 @@ void mpMainWindow::onCutButtonClicked()
     // Apply cut to currently viewed data
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->Slice = builder->createFilter("filters", "Cut", this->ActiveSource);
-    pqDataRepresentation *srep = builder->createDataRepresentation(
-            this->Slice->getOutputPort(0), this->View); 
-    this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
-    this->ActiveSourceRepr->setVisible(false);
 
     QWidget *tab = new QWidget();
     QHBoxLayout *hbox = new QHBoxLayout(tab);
     pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
+
     hbox->addWidget(inspector);
     inspector->setProxy(this->Slice);
     this->ui.tabWidget->addTab(tab, "cut");
@@ -151,7 +148,12 @@ void mpMainWindow::onCutButtonClicked()
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
 
-    this->View->render();
+    pqDataRepresentation *srep = builder->createDataRepresentation(
+            this->Slice->getOutputPort(0), this->View);
+    this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
+    this->ActiveSourceRepr->setVisible(false);
+
+    //this->View->render();
 }
 
 void mpMainWindow::onRebinButtonClicked()
@@ -159,10 +161,6 @@ void mpMainWindow::onRebinButtonClicked()
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->RebinCut = builder->createFilter("filters", "RebinningCutter",
             this->ActiveSource);
-    pqDataRepresentation *srep = builder->createDataRepresentation(
-            this->RebinCut->getOutputPort(0), this->View); 
-    this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
-    //this->ActiveSourceRepr->setVisible(false);
 
     QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->RebinCut->getProxy(),
     		vtkSMPropertyHelper(this->RebinCut->getProxy(), "ClipFunction").GetAsProxy());
@@ -173,9 +171,6 @@ void mpMainWindow::onRebinButtonClicked()
     this->BoxWidget->select();
     this->BoxWidget->resetBounds();
 
-    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->BoxWidget, SLOT(accept()));
-    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
-
     QWidget *tab = new QWidget();
     QHBoxLayout *hbox = new QHBoxLayout(tab);
     pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
@@ -184,4 +179,13 @@ void mpMainWindow::onRebinButtonClicked()
     this->ui.tabWidget->addTab(tab, "rebincut");
     emit this->ui.tabWidget->setCurrentWidget(tab);
 
+    QObject::connect(inspector->findChild<QWidget *>("show3DWidget"), SIGNAL(toggled(bool)),
+        		this->BoxWidget, SLOT(setWidgetVisible(bool)));
+    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->BoxWidget, SLOT(accept()));
+    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
+
+    pqDataRepresentation *srep = builder->createDataRepresentation(
+            this->RebinCut->getOutputPort(0), this->View);
+    this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
+    //this->ActiveSourceRepr->setVisible(false);
 }

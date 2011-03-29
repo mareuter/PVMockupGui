@@ -151,7 +151,6 @@ void mpMainWindow::onCutButtonClicked()
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
 
-
     this->View->render();
 }
 

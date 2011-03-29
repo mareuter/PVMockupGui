@@ -166,7 +166,7 @@ void mpMainWindow::onRebinButtonClicked()
     //this->ActiveSourceRepr->setVisible(false);
 
     QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->RebinCut->getProxy(),
-    		vtkSMPropertyHelper(this->RebinCut->getProxy(), "CutFunction").GetAsProxy());
+    		vtkSMPropertyHelper(this->RebinCut->getProxy(), "ClipFunction").GetAsProxy());
     Q_ASSERT(widgets.size() == 1);
     this->BoxWidget = widgets[0];
     this->BoxWidget->setView(this->View);

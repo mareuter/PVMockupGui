@@ -148,6 +148,7 @@ void mpMainWindow::onCutButtonClicked()
     hbox->addWidget(inspector);
     inspector->setProxy(this->Slice);
     this->ui.tabWidget->addTab(tab, "cut");
+    emit this->ui.tabWidget->setCurrentWidget(tab);
 
     this->View->render();
 }

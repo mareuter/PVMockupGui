@@ -37,6 +37,7 @@ private:
     QPointer<pqPipelineRepresentation> SliceRepr;
     QPointer<pqPipelineRepresentation> RebinCutRepr;
     QPointer<pq3DWidget> PlaneWidget;
+    QPointer<pq3DWidget> BoxWidget;
 };
 
 #endif // mpMAINWINDOW_H

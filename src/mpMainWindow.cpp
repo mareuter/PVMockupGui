@@ -130,10 +130,19 @@ void mpMainWindow::onCutButtonClicked()
     this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     this->ActiveSourceRepr->setVisible(false);
 
+    QWidget *tab = new QWidget();
+    QHBoxLayout *hbox = new QHBoxLayout(tab);
+    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
+    hbox->addWidget(inspector);
+    inspector->setProxy(this->Slice);
+    this->ui.tabWidget->addTab(tab, "cut");
+    emit this->ui.tabWidget->setCurrentWidget(tab);
+
     QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->Slice->getProxy(),
     		vtkSMPropertyHelper(this->Slice->getProxy(), "CutFunction").GetAsProxy());
     Q_ASSERT(widgets.size() == 1);
     this->PlaneWidget = widgets[0];
+    this->PlaneWidget->setParent(inspector);
     this->PlaneWidget->setView(this->View);
     this->PlaneWidget->setWidgetVisible(true);
     this->PlaneWidget->select();
@@ -142,13 +151,6 @@ void mpMainWindow::onCutButtonClicked()
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
 
-    QWidget *tab = new QWidget();
-    QHBoxLayout *hbox = new QHBoxLayout(tab);
-    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
-    hbox->addWidget(inspector);
-    inspector->setProxy(this->Slice);
-    this->ui.tabWidget->addTab(tab, "cut");
-    emit this->ui.tabWidget->setCurrentWidget(tab);
 
     this->View->render();
 }
@@ -163,11 +165,24 @@ void mpMainWindow::onRebinButtonClicked()
     this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     //this->ActiveSourceRepr->setVisible(false);
 
+    QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->RebinCut->getProxy(),
+    		vtkSMPropertyHelper(this->RebinCut->getProxy(), "CutFunction").GetAsProxy());
+    Q_ASSERT(widgets.size() == 1);
+    this->BoxWidget = widgets[0];
+    this->BoxWidget->setView(this->View);
+    this->BoxWidget->setWidgetVisible(true);
+    this->BoxWidget->select();
+    this->BoxWidget->resetBounds();
+
+    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
+    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
+
     QWidget *tab = new QWidget();
     QHBoxLayout *hbox = new QHBoxLayout(tab);
     pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
     hbox->addWidget(inspector);
     inspector->setProxy(this->RebinCut);
     this->ui.tabWidget->addTab(tab, "rebincut");
+    emit this->ui.tabWidget->setCurrentWidget(tab);
 
 }

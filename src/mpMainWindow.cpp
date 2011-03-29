@@ -142,12 +142,12 @@ void mpMainWindow::onCutButtonClicked()
     		vtkSMPropertyHelper(this->Slice->getProxy(), "CutFunction").GetAsProxy());
     Q_ASSERT(widgets.size() == 1);
     this->PlaneWidget = widgets[0];
-    this->PlaneWidget->setParent(inspector);
     this->PlaneWidget->setView(this->View);
-    this->PlaneWidget->setWidgetVisible(true);
     this->PlaneWidget->select();
     this->PlaneWidget->resetBounds();
 
+    QObject::connect(inspector->findChild<QWidget *>("show3DWidget"), SIGNAL(toggled(bool)),
+    		this->PlaneWidget, SLOT(setWidgetVisible(bool)));
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
     QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
 

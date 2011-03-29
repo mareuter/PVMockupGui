@@ -152,8 +152,6 @@ void mpMainWindow::onCutButtonClicked()
             this->Slice->getOutputPort(0), this->View);
     this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
     this->ActiveSourceRepr->setVisible(false);
-
-    //this->View->render();
 }
 
 void mpMainWindow::onRebinButtonClicked()
@@ -167,7 +165,6 @@ void mpMainWindow::onRebinButtonClicked()
     Q_ASSERT(widgets.size() == 1);
     this->BoxWidget = widgets[0];
     this->BoxWidget->setView(this->View);
-    this->BoxWidget->setWidgetVisible(true);
     this->BoxWidget->select();
     this->BoxWidget->resetBounds();
 
@@ -187,5 +184,5 @@ void mpMainWindow::onRebinButtonClicked()
     pqDataRepresentation *srep = builder->createDataRepresentation(
             this->RebinCut->getOutputPort(0), this->View);
     this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
-    //this->ActiveSourceRepr->setVisible(false);
+    this->ActiveSourceRepr->setVisible(false);
 }

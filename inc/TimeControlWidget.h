@@ -12,6 +12,7 @@
 
 class TimeControlWidget : public QWidget {
     Q_OBJECT
+
 public:
     TimeControlWidget(QWidget *parent = 0);
     virtual ~TimeControlWidget();

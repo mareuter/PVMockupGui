@@ -41,14 +41,10 @@ qt4_wrap_ui(UI_BUILT_SOURCES
   inc/TimeControlWidget.ui
 )
 
-qt4_add_resources(RCS_SOURCES
-    configuration.qrc
-)
-
 link_directories(${MANTID_SUBPROJECT_HOME})
 
 add_executable(${CMAKE_PROJECT_NAME}
-${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES} ${RCS_SOURCES})
+${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES})
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
 pqCore pqComponents pqApplicationComponents

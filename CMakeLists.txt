@@ -37,8 +37,8 @@ qt4_wrap_cpp(MOC_SRCS
 # These are the ui files to be processed using
 # Qt's ui file processor.
 qt4_wrap_ui(UI_BUILT_SOURCES
-  inc/mpMainWindow.ui
-  inc/TimeControlWidget.ui
+  ui/mpMainWindow.ui
+  ui/TimeControlWidget.ui
 )
 
 link_directories(${MANTID_SUBPROJECT_HOME})

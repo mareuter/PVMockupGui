@@ -14,95 +14,112 @@
    <string>Mantid ParaView GUI Mockup</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <widget class="TimeControlWidget" name="timeControlWidget" native="true"/>
+      </item>
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="pqPipelineBrowserWidget" name="pipelineBrowser">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+        <widget class="pqProxyTabWidget" name="proxyTabWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="TimeControlWidget" name="timeControlWidget" native="true"/>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget">
+         <widget class="QPushButton" name="rebinButton">
+          <property name="text">
+           <string>Rebin</string>
+          </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="cutButton">
+          <property name="text">
+           <string>Cut</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="integrateButton">
+          <property name="text">
+           <string>Integrate</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="rebinButton">
-            <property name="text">
-             <string>Rebin</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cutButton">
-            <property name="text">
-             <string>Cut</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="integrateButton">
-            <property name="text">
-             <string>Integrate</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QFrame" name="renderFrame">
-          <property name="minimumSize">
-           <size>
-            <width>600</width>
-            <height>400</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QFrame" name="renderFrame">
+        <property name="minimumSize">
+         <size>
+          <width>600</width>
+          <height>400</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
    </layout>
-   <zorder></zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -162,6 +179,18 @@
    <class>TimeControlWidget</class>
    <extends>QWidget</extends>
    <header>TimeControlWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>pqProxyTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>pqProxyTabWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>pqPipelineBrowserWidget</class>
+   <extends>QFrame</extends>
+   <header>pqPipelineBrowserWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

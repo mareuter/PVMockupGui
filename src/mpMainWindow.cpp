@@ -36,20 +36,20 @@
 mpMainWindow::mpMainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-  ui.setupUi(this);
+  this->setupUi(this);
   new pqParaViewBehaviors(this, this);
   // We want the actionLoad to result in the showing up the ParaView's OpenData
   // dialog letting the user pick from one of the supported file formats.
-  pqLoadDataReaction* dataLoader = new pqLoadDataReaction(ui.action_Open);
+  pqLoadDataReaction* dataLoader = new pqLoadDataReaction(this->action_Open);
   QObject::connect(dataLoader, SIGNAL(loadedData(pqPipelineSource*)),
     this, SLOT(onDataLoaded(pqPipelineSource*)));
   
   // Set the cut button to create a slice on the data
-  QObject::connect(ui.cutButton, SIGNAL(clicked()), this,
+  QObject::connect(this->cutButton, SIGNAL(clicked()), this,
           SLOT(onCutButtonClicked()));
 
   // Set the rebin button to create the RebinCutter operator
-  QObject::connect(ui.rebinButton, SIGNAL(clicked()), this, 
+  QObject::connect(this->rebinButton, SIGNAL(clicked()), this,
           SLOT(onRebinButtonClicked()));
   //pqUndoReaction
   //QObject::connect()
@@ -60,7 +60,12 @@ mpMainWindow::mpMainWindow(QWidget *parent)
   vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
 
   // Create the view.
-  this->View = this->createRenderView(ui.renderFrame);
+  this->View = this->createRenderView(this->renderFrame);
+
+  // Extra setup stuff to hook up view to other items
+  this->proxyTabWidget->setView(this->View);
+  this->proxyTabWidget->setShowOnAccept(true);
+  this->pipelineBrowser->setActiveView(this->View);
 }
 
 mpMainWindow::~mpMainWindow()
@@ -95,15 +100,11 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   {
       builder->destroy(this->Slice);
   }
+  if (this->RebinCut)
+  {
+	  builder->destroy(this->RebinCut);
+  }
   this->ActiveSource = source;
-
-  // Create the source parameter options
-  QWidget *tab = new QWidget();
-  QHBoxLayout *hbox = new QHBoxLayout(tab);
-  pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
-  hbox->addWidget(inspector);
-  inspector->setProxy(this->ActiveSource);
-  this->ui.tabWidget->addTab(tab, this->ActiveSource->getSMName());
 
   // Show the data
   pqDataRepresentation *drep = builder->createDataRepresentation(
@@ -125,33 +126,6 @@ void mpMainWindow::onCutButtonClicked()
     // Apply cut to currently viewed data
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->Slice = builder->createFilter("filters", "Cut", this->ActiveSource);
-
-    QWidget *tab = new QWidget();
-    QHBoxLayout *hbox = new QHBoxLayout(tab);
-    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
-
-    hbox->addWidget(inspector);
-    inspector->setProxy(this->Slice);
-    this->ui.tabWidget->addTab(tab, "cut");
-    emit this->ui.tabWidget->setCurrentWidget(tab);
-
-    QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->Slice->getProxy(),
-    		vtkSMPropertyHelper(this->Slice->getProxy(), "CutFunction").GetAsProxy());
-    Q_ASSERT(widgets.size() == 1);
-    this->PlaneWidget = widgets[0];
-    this->PlaneWidget->setView(this->View);
-    this->PlaneWidget->select();
-    this->PlaneWidget->resetBounds();
-
-    QObject::connect(inspector->findChild<QWidget *>("show3DWidget"), SIGNAL(toggled(bool)),
-    		this->PlaneWidget, SLOT(setWidgetVisible(bool)));
-    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->PlaneWidget, SLOT(accept()));
-    QObject::connect(this->PlaneWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
-
-    pqDataRepresentation *srep = builder->createDataRepresentation(
-            this->Slice->getOutputPort(0), this->View);
-    this->SliceRepr = qobject_cast<pqPipelineRepresentation *>(srep);
-    this->ActiveSourceRepr->setVisible(false);
 }
 
 void mpMainWindow::onRebinButtonClicked()
@@ -159,30 +133,4 @@ void mpMainWindow::onRebinButtonClicked()
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->RebinCut = builder->createFilter("filters", "RebinningCutter",
             this->ActiveSource);
-
-    QList<pq3DWidget *> widgets = pq3DWidget::createWidgets(this->RebinCut->getProxy(),
-    		vtkSMPropertyHelper(this->RebinCut->getProxy(), "ClipFunction").GetAsProxy());
-    Q_ASSERT(widgets.size() == 1);
-    this->BoxWidget = widgets[0];
-    this->BoxWidget->setView(this->View);
-    this->BoxWidget->select();
-    this->BoxWidget->resetBounds();
-
-    QWidget *tab = new QWidget();
-    QHBoxLayout *hbox = new QHBoxLayout(tab);
-    pqObjectInspectorWidget* inspector = new pqObjectInspectorWidget(tab);
-    hbox->addWidget(inspector);
-    inspector->setProxy(this->RebinCut);
-    this->ui.tabWidget->addTab(tab, "rebincut");
-    emit this->ui.tabWidget->setCurrentWidget(tab);
-
-    QObject::connect(inspector->findChild<QWidget *>("show3DWidget"), SIGNAL(toggled(bool)),
-        		this->BoxWidget, SLOT(setWidgetVisible(bool)));
-    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->BoxWidget, SLOT(accept()));
-    QObject::connect(this->BoxWidget, SIGNAL(widgetEndInteraction()), this->View, SLOT(render()));
-
-    pqDataRepresentation *srep = builder->createDataRepresentation(
-            this->RebinCut->getOutputPort(0), this->View);
-    this->RebinCutRepr = qobject_cast<pqPipelineRepresentation *>(srep);
-    this->ActiveSourceRepr->setVisible(false);
 }

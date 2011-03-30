@@ -5,12 +5,11 @@
 #include "ui_mpMainWindow.h"
 #include <QPointer>
 
-class pq3DWidget;
 class pqRenderView;
 class pqPipelineRepresentation;
 class pqPipelineSource;
 
-class mpMainWindow : public QMainWindow
+class mpMainWindow : public QMainWindow, public Ui::mpMainWindow
 {
     Q_OBJECT
 
@@ -28,16 +27,11 @@ protected:
 
 private:
     Q_DISABLE_COPY(mpMainWindow);
-    Ui::mpMainWindow ui;
     QPointer<pqRenderView> View;
     QPointer<pqPipelineSource> ActiveSource;
     QPointer<pqPipelineSource> Slice;
     QPointer<pqPipelineSource> RebinCut;
     QPointer<pqPipelineRepresentation> ActiveSourceRepr;
-    QPointer<pqPipelineRepresentation> SliceRepr;
-    QPointer<pqPipelineRepresentation> RebinCutRepr;
-    QPointer<pq3DWidget> PlaneWidget;
-    QPointer<pq3DWidget> BoxWidget;
 };
 
 #endif // mpMAINWINDOW_H

@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-# Add the path to our custom 'find' modules
-set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build")
-
 project(PVMockupGui)
 
 # Locate and import ParaView enviroment.
@@ -14,8 +11,6 @@ include(${ParaView_CMAKE_DIR}/ParaViewPlugins.cmake)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/inc
   ${CMAKE_CURRENT_BINARY_DIR})
-
-set (MANTID_SUBPROJECT_HOME "$ENV{HOME}/Mantid/Code/debug/bin")
 
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES

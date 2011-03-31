@@ -10,14 +10,13 @@
 
 #include "ui_timecontrolwidget.h"
 
-class TimeControlWidget : public QWidget {
+class TimeControlWidget : public QWidget, public Ui::TimeControlWidget
+{
     Q_OBJECT
 
 public:
     TimeControlWidget(QWidget *parent = 0);
     virtual ~TimeControlWidget();
-private:
-    Ui::TimeControlWidget widget;
 };
 
 #endif	/* _TIMECONTROLWIDGET_H */

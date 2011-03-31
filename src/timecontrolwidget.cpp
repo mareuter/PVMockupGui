@@ -8,7 +8,7 @@
 #include "timecontrolwidget.h"
 
 TimeControlWidget::TimeControlWidget(QWidget *parent) : QWidget(parent) {
-    widget.setupUi(this);
+    this->setupUi(this);
 }
 
 TimeControlWidget::~TimeControlWidget() {

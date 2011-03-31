@@ -43,6 +43,7 @@ pqRenderView* ThreeSliceView::create2dRenderView(QWidget* widget)
 	pqRenderView *view = this->createRenderView(widget);
 	view->setCenterAxesVisibility(false);
 	view->setOrientationAxesInteractivity(false);
+	view->setOrientationAxesVisibility(false);
 	// Remove roll/rotate interactions from 2D view
 	vtkSMPropertyHelper helper(view->getProxy(), "CameraManipulators");
 	for (unsigned int cm = 0; cm < helper.GetNumberOfElements(); cm++)

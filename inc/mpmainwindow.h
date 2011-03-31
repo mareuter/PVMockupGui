@@ -32,6 +32,7 @@ private:
     StandardView *sview;
 
     void setMainWindowComponentsForStandardView();
+    void setMainWindowComponentsForThreeSliceView();
 };
 
 #endif // mpMAINWINDOW_H

@@ -1,9 +1,8 @@
-#include "../inc/StandardView.h"
+#include "standardview.h"
 
-StandardView::StandardView(QWidget *parent)
-    : QWidget(parent)
+StandardView::StandardView(QWidget *parent) : QWidget(parent)
 {
-	ui.setupUi(this);
+	this->setupUi(this);
 }
 
 StandardView::~StandardView()

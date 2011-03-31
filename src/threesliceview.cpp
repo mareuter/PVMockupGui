@@ -1,9 +1,8 @@
-#include "../inc/threesliceview.h"
+#include "threesliceview.h"
 
-ThreeSliceView::ThreeSliceView(QWidget *parent)
-    : QWidget(parent)
+ThreeSliceView::ThreeSliceView(QWidget *parent) : QWidget(parent)
 {
-	ui.setupUi(this);
+	this->setupUi(this);
 }
 
 ThreeSliceView::~ThreeSliceView()

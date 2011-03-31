@@ -2,9 +2,9 @@
 #define STANDARDVIEW_H
 
 #include <QtGui/QWidget>
-#include "ui_StandardView.h"
+#include "ui_standardview.h"
 
-class StandardView : public QWidget
+class StandardView : public QWidget, public Ui::StandardView
 {
     Q_OBJECT
 
@@ -12,8 +12,7 @@ public:
     StandardView(QWidget *parent = 0);
     virtual ~StandardView();
 
-private:
-    Ui::StandardViewClass ui;
+
 };
 
 #endif // STANDARDVIEW_H

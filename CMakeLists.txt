@@ -14,26 +14,26 @@ include_directories(
 
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
-  inc/mpMainWindow.h
+  inc/mpmainwindow.h
 )
 set (SOURCE_FILES
   src/main.cpp
-  src/mpMainWindow.cpp
-  src/TimeControlWidget.cpp
+  src/mpmainwindow.cpp
+  src/timecontrolwidget.cpp
 )
 
 # These are the headers to be preprocessed using
 # Qt's moc preprocessor.
 qt4_wrap_cpp(MOC_SRCS
-  inc/mpMainWindow.h
-  inc/TimeControlWidget.h
+  inc/mpmainwindow.h
+  inc/timecontrolwidget.h
 )
 
 # These are the ui files to be processed using
 # Qt's ui file processor.
 qt4_wrap_ui(UI_BUILT_SOURCES
-  ui/mpMainWindow.ui
-  ui/TimeControlWidget.ui
+  ui/mpmainwindow.ui
+  ui/timecontrolwidget.ui
 )
 
 add_executable(${CMAKE_PROJECT_NAME}

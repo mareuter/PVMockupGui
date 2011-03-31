@@ -2,7 +2,7 @@
 #define MPMAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include "ui_mpMainWindow.h"
+#include "ui_mpmainwindow.h"
 #include <QPointer>
 
 class pqRenderView;

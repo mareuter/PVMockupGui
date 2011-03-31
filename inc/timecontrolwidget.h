@@ -8,7 +8,7 @@
 #ifndef _TIMECONTROLWIDGET_H
 #define	_TIMECONTROLWIDGET_H
 
-#include "ui_TimeControlWidget.h"
+#include "ui_timecontrolwidget.h"
 
 class TimeControlWidget : public QWidget {
     Q_OBJECT

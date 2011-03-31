@@ -1,6 +1,6 @@
 #include <QApplication>
 #include "pqPVApplicationCore.h"
-#include "mpMainWindow.h"
+#include "mpmainwindow.h"
 
 int main(int argc, char** argv)
 {

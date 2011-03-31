@@ -176,12 +176,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TimeControlWidget</class>
-   <extends>QWidget</extends>
-   <header>TimeControlWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>pqProxyTabWidget</class>
    <extends>QTabWidget</extends>
    <header>pqProxyTabWidget.h</header>
@@ -191,6 +185,12 @@
    <class>pqPipelineBrowserWidget</class>
    <extends>QFrame</extends>
    <header>pqPipelineBrowserWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TimeControlWidget</class>
+   <extends>QWidget</extends>
+   <header>timecontrolwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

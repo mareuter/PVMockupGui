@@ -5,7 +5,7 @@
  * Created on March 9, 2011, 2:15 PM
  */
 
-#include "TimeControlWidget.h"
+#include "timecontrolwidget.h"
 
 TimeControlWidget::TimeControlWidget(QWidget *parent) : QWidget(parent) {
     widget.setupUi(this);

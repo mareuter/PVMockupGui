@@ -1,6 +1,6 @@
-#include "mpMainWindow.h"
+#include "mpmainwindow.h"
 
-#include "TimeControlWidget.h"
+#include "timecontrolwidget.h"
 #include "pq3DWidget.h"
 #include "pq3DWidgetFactory.h"
 #include "pqActiveObjects.h"

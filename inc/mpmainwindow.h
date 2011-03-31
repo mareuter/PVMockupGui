@@ -5,7 +5,9 @@
 #include "ui_mpmainwindow.h"
 #include <QPointer>
 
-class pqRenderView;
+class StandardView;
+class ThreeSliceView;
+
 class pqPipelineRepresentation;
 class pqPipelineSource;
 
@@ -19,19 +21,17 @@ public:
 
 protected slots:
     void onDataLoaded(pqPipelineSource *);
-    void onCutButtonClicked();
-    void onRebinButtonClicked();
-
-protected:
-    pqRenderView *createRenderView(QWidget *container);
+    void onStandardViewButtonClicked();
+    void onThreeSliceViewButtonClicked();
 
 private:
     Q_DISABLE_COPY(mpMainWindow);
-    QPointer<pqRenderView> View;
-    QPointer<pqPipelineSource> OriginSource;
-    QPointer<pqPipelineSource> Slice;
-    QPointer<pqPipelineSource> RebinCut;
-    QPointer<pqPipelineRepresentation> OriginSourceRepr;
+    QPointer<pqPipelineSource> originSource;
+    QPointer<pqPipelineRepresentation> originSourceRepr;
+    ThreeSliceView *tsview;
+    StandardView *sview;
+
+    void setMainWindowComponentsForStandardView();
 };
 
 #endif // mpMAINWINDOW_H

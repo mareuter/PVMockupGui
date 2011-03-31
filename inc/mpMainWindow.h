@@ -28,10 +28,10 @@ protected:
 private:
     Q_DISABLE_COPY(mpMainWindow);
     QPointer<pqRenderView> View;
-    QPointer<pqPipelineSource> ActiveSource;
+    QPointer<pqPipelineSource> OriginSource;
     QPointer<pqPipelineSource> Slice;
     QPointer<pqPipelineSource> RebinCut;
-    QPointer<pqPipelineRepresentation> ActiveSourceRepr;
+    QPointer<pqPipelineRepresentation> OriginSourceRepr;
 };
 
 #endif // mpMAINWINDOW_H

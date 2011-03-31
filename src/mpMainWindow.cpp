@@ -92,9 +92,9 @@ pqRenderView* mpMainWindow::createRenderView(QWidget* widget)
 void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 {
   pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
-  if (this->ActiveSource)
+  if (this->OriginSource)
   {
-      builder->destroy(this->ActiveSource);
+      builder->destroy(this->OriginSource);
   }
   if (this->Slice)
   {
@@ -104,15 +104,15 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   {
 	  builder->destroy(this->RebinCut);
   }
-  this->ActiveSource = source;
+  this->OriginSource = source;
 
   // Show the data
   pqDataRepresentation *drep = builder->createDataRepresentation(
-          this->ActiveSource->getOutputPort(0), this->View);
+          this->OriginSource->getOutputPort(0), this->View);
   vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
   drep->getProxy()->UpdateVTKObjects();
-  this->ActiveSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
-  this->ActiveSourceRepr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
+  this->OriginSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
+  this->OriginSourceRepr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
   // Reset the camera to ensure that the data is visible.
   this->View->resetDisplay();
@@ -125,12 +125,12 @@ void mpMainWindow::onCutButtonClicked()
 {
     // Apply cut to currently viewed data
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
-    this->Slice = builder->createFilter("filters", "Cut", this->ActiveSource);
+    this->Slice = builder->createFilter("filters", "Cut", pqActiveObjects::instance().activeSource());
 }
 
 void mpMainWindow::onRebinButtonClicked()
 {
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->RebinCut = builder->createFilter("filters", "RebinningCutter",
-            this->ActiveSource);
+    		pqActiveObjects::instance().activeSource());
 }

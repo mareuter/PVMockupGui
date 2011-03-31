@@ -15,10 +15,15 @@ include_directories(
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
   inc/mpmainwindow.h
+  inc/standardview.h
+  inc/threesliceview.h
+  inc/timecontrolwidget.h
 )
 set (SOURCE_FILES
   src/main.cpp
   src/mpmainwindow.cpp
+  src/standardview.cpp
+  src/threesliceview.cpp
   src/timecontrolwidget.cpp
 )
 
@@ -26,6 +31,8 @@ set (SOURCE_FILES
 # Qt's moc preprocessor.
 qt4_wrap_cpp(MOC_SRCS
   inc/mpmainwindow.h
+  inc/standardview.h
+  inc/threesliceview.h
   inc/timecontrolwidget.h
 )
 
@@ -33,6 +40,8 @@ qt4_wrap_cpp(MOC_SRCS
 # Qt's ui file processor.
 qt4_wrap_ui(UI_BUILT_SOURCES
   ui/mpmainwindow.ui
+  ui/standardview.ui
+  ui/threesliceview.ui
   ui/timecontrolwidget.ui
 )
 

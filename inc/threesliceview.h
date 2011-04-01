@@ -30,6 +30,7 @@ protected:
     pqRenderView *create2dRenderView(QWidget *container);
 
 private:
+    Q_DISABLE_COPY(ThreeSliceView);
     void makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
     		pqPipelineSource *cut, pqPipelineRepresentation *repr);
 

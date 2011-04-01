@@ -26,6 +26,7 @@ protected:
     pqRenderView *createRenderView(QWidget *container);
 
 private:
+    Q_DISABLE_COPY(StandardView);
     QPointer<pqPipelineSource> rebinCut;
     QPointer<pqRenderView> view;
 };

@@ -97,8 +97,6 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   this->originSource = source;
 
   // Show the data
-  //pqDataRepresentation *drep = builder->createDataRepresentation(
-  //        this->originSource->getOutputPort(0), this->sview->getView());
   pqDataRepresentation *drep = builder->createDataRepresentation(
 		  this->originSource->getOutputPort(0), this->tsview->getView());
   vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);

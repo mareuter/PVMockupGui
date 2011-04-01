@@ -97,17 +97,23 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   this->originSource = source;
 
   // Show the data
+  //pqDataRepresentation *drep = builder->createDataRepresentation(
+  //        this->originSource->getOutputPort(0), this->sview->getView());
   pqDataRepresentation *drep = builder->createDataRepresentation(
-          this->originSource->getOutputPort(0), this->sview->getView());
+		  this->originSource->getOutputPort(0), this->tsview->getView());
   vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
   drep->getProxy()->UpdateVTKObjects();
   this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
   this->originSourceRepr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
+  this->tsview->makeThreeSlice(this->proxyTabWidget, this->pipelineBrowser);
+
   // Reset the camera to ensure that the data is visible.
-  this->sview->getView()->resetDisplay();
+  //this->sview->getView()->resetDisplay();
+  //this->tsview->getView()->resetDisplay();
   // Trigger renders.
-  this->sview->getView()->render();
+  //this->sview->getView()->render();
+  //this->tsview->getView()->render();
 }
 
 void mpMainWindow::onStandardViewButtonClicked()

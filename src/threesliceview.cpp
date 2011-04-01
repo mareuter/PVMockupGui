@@ -77,9 +77,6 @@ pqRenderView* ThreeSliceView::getView()
 void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
 		pqPipelineSource *cut, pqPipelineRepresentation *repr)
 {
-	this->pTab->setView(view);
-	this->pBrow->setActiveView(view);
-
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
 
 	cut = builder->createFilter("filters", "Cut", this->origSource);
@@ -126,12 +123,8 @@ void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
 			up[0], up[1], up[2]);
 }
 
-void ThreeSliceView::makeThreeSlice(pqProxyTabWidget *ptw,
-		pqPipelineBrowserWidget *pbw)
+void ThreeSliceView::makeThreeSlice()
 {
-	this->pBrow = pbw;
-	this->pTab = ptw;
-
 	this->origSource = pqActiveObjects::instance().activeSource();
 
 	this->makeSlice(ThreeSliceView::X, this->xView, this->xCut,
@@ -140,9 +133,6 @@ void ThreeSliceView::makeThreeSlice(pqProxyTabWidget *ptw,
 			this->yCutRepr);
 	this->makeSlice(ThreeSliceView::Z, this->zView, this->zCut,
 			this->zCutRepr);
-
-	this->pBrow->setActiveView(this->mainView);
-	this->pTab->setView(this->mainView);
 
 	this->mainView->resetViewDirection(-1, -1, -1, 0, 1, 0);
 

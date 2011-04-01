@@ -104,7 +104,7 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
   this->originSourceRepr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
-  this->tsview->makeThreeSlice(this->proxyTabWidget, this->pipelineBrowser);
+  this->tsview->makeThreeSlice();
 
   // Reset the camera to ensure that the data is visible.
   //this->sview->getView()->resetDisplay();

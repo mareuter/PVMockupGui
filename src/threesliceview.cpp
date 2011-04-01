@@ -144,6 +144,8 @@ void ThreeSliceView::makeThreeSlice(pqProxyTabWidget *ptw,
 	this->pBrow->setActiveView(this->mainView);
 	this->pTab->setView(this->mainView);
 
+	this->mainView->resetViewDirection(-1, -1, -1, 0, 1, 0);
+
 	this->renderAll();
 }
 

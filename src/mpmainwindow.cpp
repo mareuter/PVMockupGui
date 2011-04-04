@@ -63,9 +63,9 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   //this->tsview = new ThreeSliceView(this->viewWidget);
   //this->setMainWindowComponentsForView();
 
-  // Shutting off buttons for now to understand behavior
+  // Disable all view buttons until data load
   this->standardViewButton->setEnabled(false);
-  //this->threeSliceViewButton->setEnabled(false);
+  this->threeSliceViewButton->setEnabled(false);
 }
 
 mpMainWindow::~mpMainWindow()
@@ -121,6 +121,7 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
   this->currentView->render();
+  this->threeSliceViewButton->setEnabled(true);
 }
 
 void mpMainWindow::onStandardViewButtonClicked()

@@ -81,7 +81,6 @@ IView* mpMainWindow::setMainViewWidget(QWidget *container, Views v)
 	case mpMainWindow::STANDARD:
 	{
 		StandardView *sv = new StandardView(container);
-		std::cout << "C: " << sv->parent()->objectName().toStdString() << std::endl;
 		view = sv;
 	}
 	break;

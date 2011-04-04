@@ -27,8 +27,7 @@
 
 #include <iostream>
 
-mpMainWindow::mpMainWindow(QWidget *parent)
-    : QMainWindow(parent)
+mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
 {
   this->setupUi(this);
 
@@ -54,16 +53,19 @@ mpMainWindow::mpMainWindow(QWidget *parent)
   vtkSMProxyManager::GetProxyManager()->GetReaderFactory()->RegisterPrototypes("sources");
 
   // Set the standard view as the default
-  //this->sview = new StandardView(this->viewWidget);
-  //this->setMainWindowComponentsForStandardView();
+  this->currentView = this->setMainViewWidget(this->viewWidget,
+		  mpMainWindow::STANDARD);
+  this->setMainWindowComponentsForView();
+  // Set the hidden view to NULL since we don't need one right now
+  this->hiddenView = NULL;
 
   //Set the three slice view as the default
-  this->tsview = new ThreeSliceView(this->viewWidget);
-  this->setMainWindowComponentsForThreeSliceView();
+  //this->tsview = new ThreeSliceView(this->viewWidget);
+  //this->setMainWindowComponentsForView();
 
   // Shutting off buttons for now to understand behavior
   this->standardViewButton->setEnabled(false);
-  this->threeSliceViewButton->setEnabled(false);
+  //this->threeSliceViewButton->setEnabled(false);
 }
 
 mpMainWindow::~mpMainWindow()
@@ -71,20 +73,34 @@ mpMainWindow::~mpMainWindow()
 
 }
 
-void mpMainWindow::setMainWindowComponentsForStandardView()
+IView* mpMainWindow::setMainViewWidget(QWidget *container, Views v)
 {
-	// Extra setup stuff to hook up standard view to other items
-	this->proxyTabWidget->setView(this->sview->getView());
-	this->proxyTabWidget->setShowOnAccept(true);
-	this->pipelineBrowser->setActiveView(this->sview->getView());
+	IView *view;
+	switch(v)
+	{
+	case mpMainWindow::STANDARD:
+	{
+		StandardView *sv = new StandardView(container);
+		std::cout << "C: " << sv->parent()->objectName().toStdString() << std::endl;
+		view = sv;
+	}
+	break;
+	case mpMainWindow::THREESLICE:
+	{
+		ThreeSliceView *tsv = new ThreeSliceView(container);
+		view = tsv;
+	}
+	break;
+	}
+	return view;
 }
 
-void mpMainWindow::setMainWindowComponentsForThreeSliceView()
+void mpMainWindow::setMainWindowComponentsForView()
 {
-	// Extra setup stuff to hook up three slice view to other items
-	this->proxyTabWidget->setView(this->tsview->getView());
+	// Extra setup stuff to hook up standard view to other items
+	this->proxyTabWidget->setView(this->currentView->getView());
 	this->proxyTabWidget->setShowOnAccept(true);
-	this->pipelineBrowser->setActiveView(this->tsview->getView());
+	this->pipelineBrowser->setActiveView(this->currentView->getView());
 }
 
 void mpMainWindow::onDataLoaded(pqPipelineSource* source)
@@ -98,50 +114,47 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 
   // Show the data
   pqDataRepresentation *drep = builder->createDataRepresentation(
-		  this->originSource->getOutputPort(0), this->tsview->getView());
+		  this->originSource->getOutputPort(0), this->currentView->getView());
   vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
   drep->getProxy()->UpdateVTKObjects();
   this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
-  this->originSourceRepr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
+  this->originSourceRepr->colorByArray("signal",
+		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
-  this->tsview->makeThreeSlice();
-
-  // Reset the camera to ensure that the data is visible.
-  //this->sview->getView()->resetDisplay();
-  //this->tsview->getView()->resetDisplay();
-  // Trigger renders.
-  //this->sview->getView()->render();
-  //this->tsview->getView()->render();
+  this->currentView->render();
 }
 
 void mpMainWindow::onStandardViewButtonClicked()
 {
-	this->tsview->hide();
-	if (this->sview)
-	{
-		this->sview = new StandardView(this->viewWidget);
-	}
-	else
-	{
-		this->sview->show();
-	}
-	this->setMainWindowComponentsForStandardView();
+	this->currentView->hide();
+	this->swapViews();
+	this->currentView->show();
+	this->setMainWindowComponentsForView();
 	this->standardViewButton->setEnabled(false);
 	this->threeSliceViewButton->setEnabled(true);
+	this->currentView->render();
 }
 
 void mpMainWindow::onThreeSliceViewButtonClicked()
 {
-	this->sview->hide();
-	if (this->tsview)
+	this->currentView->hide();
+	if (! this->hiddenView)
 	{
-		this->tsview = new ThreeSliceView(this->viewWidget);
+		this->hiddenView = this->setMainViewWidget(this->viewWidget,
+				mpMainWindow::THREESLICE);
 	}
-	else
-	{
-		this->tsview->show();
-	}
-	this->setMainWindowComponentsForThreeSliceView();
+	this->swapViews();
+	this->currentView->show();
+	this->setMainWindowComponentsForView();
 	this->threeSliceViewButton->setEnabled(false);
 	this->standardViewButton->setEnabled(true);
+	this->currentView->render();
+}
+
+void mpMainWindow::swapViews()
+{
+	IView *temp;
+	temp = this->currentView;
+	this->currentView = this->hiddenView;
+	this->hiddenView = temp;
 }

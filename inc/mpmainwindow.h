@@ -5,8 +5,7 @@
 #include "ui_mpmainwindow.h"
 #include <QPointer>
 
-class StandardView;
-class ThreeSliceView;
+class IView;
 
 class pqPipelineRepresentation;
 class pqPipelineSource;
@@ -28,11 +27,13 @@ private:
     Q_DISABLE_COPY(mpMainWindow);
     QPointer<pqPipelineSource> originSource;
     QPointer<pqPipelineRepresentation> originSourceRepr;
-    ThreeSliceView *tsview;
-    StandardView *sview;
+    IView *currentView;
+    IView *hiddenView;
+    enum Views {STANDARD, THREESLICE};
 
-    void setMainWindowComponentsForStandardView();
-    void setMainWindowComponentsForThreeSliceView();
+    void setMainWindowComponentsForView();
+    IView *setMainViewWidget(QWidget *container, Views v);
+    void swapViews();
 };
 
 #endif // mpMAINWINDOW_H

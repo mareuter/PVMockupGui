@@ -3,12 +3,13 @@
 
 #include <QtGui/QWidget>
 #include <QPointer>
+#include "iview.h"
 #include "ui_standardview.h"
 
 class pqPipelineSource;
 class pqRenderView;
 
-class StandardView : public QWidget, public Ui::StandardView
+class StandardView : public IView, public Ui::StandardView
 {
     Q_OBJECT
 
@@ -17,13 +18,11 @@ public:
     virtual ~StandardView();
 
     pqRenderView* getView();
+    void render();
 
 protected slots:
     void onCutButtonClicked();
     void onRebinButtonClicked();
-
-protected:
-    pqRenderView *createRenderView(QWidget *container);
 
 private:
     Q_DISABLE_COPY(StandardView);

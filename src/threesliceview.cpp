@@ -15,7 +15,7 @@
 
 #include <iostream>
 
-ThreeSliceView::ThreeSliceView(QWidget *parent) : QWidget(parent)
+ThreeSliceView::ThreeSliceView(QWidget *parent) : IView(parent)
 {
 	this->setupUi(this);
 
@@ -28,23 +28,6 @@ ThreeSliceView::ThreeSliceView(QWidget *parent) : QWidget(parent)
 ThreeSliceView::~ThreeSliceView()
 {
 
-}
-
-pqRenderView* ThreeSliceView::createRenderView(QWidget* widget)
-{
-  QHBoxLayout *hbox = new QHBoxLayout(widget);
-  hbox->setMargin(0);
-
-  // Create a new render view.
-  pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
-  pqRenderView *view = qobject_cast<pqRenderView*>(
-    builder->createView(pqRenderView::renderViewType(),
-      pqActiveObjects::instance().activeServer()));
-  //pqActiveObjects::instance().setActiveView(view);
-
-  // Place the widget for the render view in the frame provided.
-  hbox->addWidget(view->getWidget());
-  return view;
 }
 
 pqRenderView* ThreeSliceView::create2dRenderView(QWidget* widget)
@@ -72,6 +55,13 @@ pqRenderView* ThreeSliceView::create2dRenderView(QWidget* widget)
 pqRenderView* ThreeSliceView::getView()
 {
 	return this->mainView.data();
+}
+
+void ThreeSliceView::render()
+{
+	this->makeThreeSlice();
+	this->mainView->resetViewDirection(-1, -1, -1, 0, 1, 0);
+	this->renderAll();
 }
 
 void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
@@ -133,10 +123,6 @@ void ThreeSliceView::makeThreeSlice()
 			this->yCutRepr);
 	this->makeSlice(ThreeSliceView::Z, this->zView, this->zCut,
 			this->zCutRepr);
-
-	this->mainView->resetViewDirection(-1, -1, -1, 0, 1, 0);
-
-	this->renderAll();
 }
 
 void ThreeSliceView::renderAll()

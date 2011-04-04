@@ -8,7 +8,7 @@
 
 #include <QHBoxLayout>
 
-StandardView::StandardView(QWidget *parent) : QWidget(parent)
+StandardView::StandardView(QWidget *parent) : IView(parent)
 {
 	this->setupUi(this);
 
@@ -28,26 +28,15 @@ StandardView::~StandardView()
 
 }
 
-pqRenderView* StandardView::createRenderView(QWidget* widget)
-{
-  QHBoxLayout *hbox = new QHBoxLayout(widget);
-  hbox->setMargin(0);
-
-  // Create a new render view.
-  pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
-  pqRenderView *view = qobject_cast<pqRenderView*>(
-    builder->createView(pqRenderView::renderViewType(),
-      pqActiveObjects::instance().activeServer()));
-  pqActiveObjects::instance().setActiveView(view);
-
-  // Place the widget for the render view in the frame provided.
-  hbox->addWidget(view->getWidget());
-  return view;
-}
-
 pqRenderView* StandardView::getView()
 {
 	return this->view.data();
+}
+
+void StandardView::render()
+{
+	this->view->resetDisplay();
+	this->view->render();
 }
 
 void StandardView::onCutButtonClicked()

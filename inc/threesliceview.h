@@ -3,13 +3,14 @@
 
 #include <QtGui/QWidget>
 #include <QPointer>
+#include "iview.h"
 #include "ui_threesliceview.h"
 
 class pqPipelineRepresentation;
 class pqPipelineSource;
 class pqRenderView;
 
-class ThreeSliceView : public QWidget, public Ui::ThreeSliceView
+class ThreeSliceView : public IView, public Ui::ThreeSliceView
 {
     Q_OBJECT
 
@@ -18,19 +19,20 @@ public:
     virtual ~ThreeSliceView();
 
     pqRenderView* getView();
-    void makeThreeSlice();
-    void renderAll();
+    void render();
 
     enum Direction {X, Y, Z};
 
 protected:
-    pqRenderView *createRenderView(QWidget *container);
     pqRenderView *create2dRenderView(QWidget *container);
 
 private:
     Q_DISABLE_COPY(ThreeSliceView);
+
     void makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
     		pqPipelineSource *cut, pqPipelineRepresentation *repr);
+    void makeThreeSlice();
+    void renderAll();
 
     pqPipelineSource *origSource;
 

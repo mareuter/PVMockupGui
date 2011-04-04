@@ -14,12 +14,14 @@ include_directories(
 
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
+  inc/iview.h
   inc/mpmainwindow.h
   inc/standardview.h
   inc/threesliceview.h
   inc/timecontrolwidget.h
 )
 set (SOURCE_FILES
+  src/iview.cpp
   src/main.cpp
   src/mpmainwindow.cpp
   src/standardview.cpp

@@ -15,13 +15,18 @@ class mpMainWindow : public QMainWindow, public Ui::mpMainWindow
     Q_OBJECT
 
 public:
+    enum Views {STANDARD, THREESLICE};
+
     mpMainWindow(QWidget *parent = 0);
     virtual ~mpMainWindow();
 
 protected slots:
     void onDataLoaded(pqPipelineSource *);
-    void onStandardViewButtonClicked();
-    void onThreeSliceViewButtonClicked();
+    void switchViews();
+
+signals:
+	void disableViewModes();
+	void enableThreeSlice();
 
 private:
     Q_DISABLE_COPY(mpMainWindow);
@@ -29,7 +34,6 @@ private:
     QPointer<pqPipelineRepresentation> originSourceRepr;
     IView *currentView;
     IView *hiddenView;
-    enum Views {STANDARD, THREESLICE};
 
     void setMainWindowComponentsForView();
     IView *setMainViewWidget(QWidget *container, Views v);

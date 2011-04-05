@@ -39,10 +39,8 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   QObject::connect(dataLoader, SIGNAL(loadedData(pqPipelineSource*)),
     this, SLOT(onDataLoaded(pqPipelineSource*)));
 
-  QObject::connect(this->standardViewButton, SIGNAL(clicked()),
-		  this, SLOT(onStandardViewButtonClicked()));
-  QObject::connect(this->threeSliceViewButton, SIGNAL(clicked()),
-  		  this, SLOT(onThreeSliceViewButtonClicked()));
+  QObject::connect(this->modeControlWidget, SIGNAL(executeSwitchViews()),
+		  this, SLOT(switchViews()));
 
   //pqUndoReaction
   //QObject::connect()
@@ -56,16 +54,14 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   this->currentView = this->setMainViewWidget(this->viewWidget,
 		  mpMainWindow::STANDARD);
   this->setMainWindowComponentsForView();
-  // Set the hidden view to NULL since we don't need one right now
-  this->hiddenView = NULL;
 
-  //Set the three slice view as the default
-  //this->tsview = new ThreeSliceView(this->viewWidget);
-  //this->setMainWindowComponentsForView();
+  // Set the three slice view as hidden view for later use
+  this->hiddenView = this->setMainViewWidget(this->viewWidget,
+		  mpMainWindow::THREESLICE);
+  this->hiddenView->hide();
 
   // Disable all view buttons until data load
-  this->standardViewButton->setEnabled(false);
-  this->threeSliceViewButton->setEnabled(false);
+  emit disableViewModes();
 }
 
 mpMainWindow::~mpMainWindow()
@@ -121,33 +117,15 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
   this->currentView->render();
-  this->threeSliceViewButton->setEnabled(true);
+  emit enableThreeSlice();
 }
 
-void mpMainWindow::onStandardViewButtonClicked()
+void mpMainWindow::switchViews()
 {
 	this->currentView->hide();
 	this->swapViews();
 	this->currentView->show();
 	this->setMainWindowComponentsForView();
-	this->standardViewButton->setEnabled(false);
-	this->threeSliceViewButton->setEnabled(true);
-	this->currentView->render();
-}
-
-void mpMainWindow::onThreeSliceViewButtonClicked()
-{
-	this->currentView->hide();
-	if (! this->hiddenView)
-	{
-		this->hiddenView = this->setMainViewWidget(this->viewWidget,
-				mpMainWindow::THREESLICE);
-	}
-	this->swapViews();
-	this->currentView->show();
-	this->setMainWindowComponentsForView();
-	this->threeSliceViewButton->setEnabled(false);
-	this->standardViewButton->setEnabled(true);
 	this->currentView->render();
 }
 

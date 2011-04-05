@@ -14,11 +14,8 @@
    <string>Mantid ParaView GUI Mockup</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="TimeControlWidget" name="timeControlWidget" native="true"/>
-    </item>
-    <item row="0" column="1">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <spacer name="horizontalSpacer">
@@ -34,11 +31,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="standardViewButton">
-        <property name="text">
-         <string>Standard</string>
-        </property>
-       </widget>
+       <widget class="TimeControlWidget" name="timeControlWidget" native="true"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_2">
@@ -54,11 +47,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="threeSliceViewButton">
-        <property name="text">
-         <string>ThreeSlice</string>
-        </property>
-       </widget>
+       <widget class="ModeControlWidget" name="modeControlWidget" native="true"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_3">
@@ -75,7 +64,7 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="0" colspan="2">
+    <item>
      <widget class="QSplitter" name="splitter_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -210,6 +199,12 @@
    <class>TimeControlWidget</class>
    <extends>QWidget</extends>
    <header>timecontrolwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ModeControlWidget</class>
+   <extends>QWidget</extends>
+   <header>modecontrolwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

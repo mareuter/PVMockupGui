@@ -15,6 +15,7 @@ include_directories(
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
   inc/iview.h
+  inc/modecontrolwidget.h
   inc/mpmainwindow.h
   inc/standardview.h
   inc/threesliceview.h
@@ -23,6 +24,7 @@ set (INCLUDE_FILES
 set (SOURCE_FILES
   src/iview.cpp
   src/main.cpp
+  src/modecontrolwidget.cpp
   src/mpmainwindow.cpp
   src/standardview.cpp
   src/threesliceview.cpp
@@ -32,6 +34,7 @@ set (SOURCE_FILES
 # These are the headers to be preprocessed using
 # Qt's moc preprocessor.
 qt4_wrap_cpp(MOC_SRCS
+  inc/modecontrolwidget.h
   inc/mpmainwindow.h
   inc/standardview.h
   inc/threesliceview.h
@@ -41,6 +44,7 @@ qt4_wrap_cpp(MOC_SRCS
 # These are the ui files to be processed using
 # Qt's ui file processor.
 qt4_wrap_ui(UI_BUILT_SOURCES
+  ui/modecontrolwidget.ui
   ui/mpmainwindow.ui
   ui/standardview.ui
   ui/threesliceview.ui

@@ -11,6 +11,7 @@
 #include <QtGui/QWidget>
 #include "ui_axisinteractor.h"
 
+class QGraphicsScene;
 class QMouseEvent;
 class QString;
 class QwtScaleEngine;
@@ -32,6 +33,7 @@ private:
 	Ui::AxisInteractor ui;
 	QwtScaleEngine *engine;
 	QwtScaleTransformation *transform;
+	QGraphicsScene *scene;
 };
 
 #endif /* AXISINTERACTOR_H_ */

@@ -11,6 +11,7 @@
 #include <QtGui/QWidget>
 #include "ui_axisinteractor.h"
 
+class QMouseEvent;
 class QString;
 class QwtScaleEngine;
 class QwtScaleTransformation;
@@ -23,6 +24,9 @@ public:
 	AxisInteractor(QWidget *parent = 0);
 	virtual ~AxisInteractor() {}
 	void setInformation(QString title, double min, double max);
+
+protected:
+	void mousePressEvent(QMouseEvent *event);
 
 private:
 	Ui::AxisInteractor ui;

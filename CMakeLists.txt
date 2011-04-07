@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/build)
+
 project(PVMockupGui)
 
 # Locate and import ParaView enviroment.
@@ -7,10 +9,13 @@ find_package(ParaView REQUIRED)
 include(${PARAVIEW_USE_FILE})
 include(${ParaView_CMAKE_DIR}/ParaViewPlugins.cmake)
 
+find_package(Qwt)
+
 # Setup the include locations.
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/inc
-  ${CMAKE_CURRENT_BINARY_DIR})
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${QWT_INCLUDE_DIR})
 
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
@@ -57,3 +62,26 @@ ${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES})
 target_link_libraries(${CMAKE_PROJECT_NAME}
 pqCore pqComponents pqApplicationComponents
 ${QT_LIBRARIES})
+
+set (TEST_INCLUDE_FILES
+  inc/axisinteractor.h
+)
+
+set (TEST_SOURCE_FILES
+  src/axisinteractor.cpp
+  src/test.cpp
+)
+
+qt4_wrap_cpp(TEST_MOC_SOURCES
+  inc/axisinteractor.h
+)
+
+qt4_wrap_ui(TEST_UI_BUILT_SOURCES
+  ui/axisinteractor.ui
+)
+
+add_executable(test
+${TEST_INCLUDE_FILES} ${TEST_SOURCE_FILES} ${TEST_MOC_SOURCES} 
+${TEST_UI_BUILT_SOURCES})
+
+target_link_libraries(test ${QT_LIBRARIES} ${QWT_LIBRARIES})

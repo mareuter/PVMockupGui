@@ -65,10 +65,12 @@ ${QT_LIBRARIES})
 
 set (TEST_INCLUDE_FILES
   inc/axisinteractor.h
+  inc/indicator.h
 )
 
 set (TEST_SOURCE_FILES
   src/axisinteractor.cpp
+  src/indicator.cpp
   src/test.cpp
 )
 

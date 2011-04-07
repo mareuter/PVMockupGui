@@ -5,6 +5,7 @@
  *      Author: 2zr
  */
 #include "axisinteractor.h"
+#include "indicator.h"
 
 #include "qwt_scale_draw.h"
 #include "qwt_scale_engine.h"
@@ -42,9 +43,9 @@ void AxisInteractor::mousePressEvent(QMouseEvent *event)
 	}
 	if (event->button() == Qt::LeftButton)
 	{
-		this->ui.scaleWidget->setTitle(QString("left"));
+		Indicator *tri = new Indicator();
+		QRect rect = this->ui.graphicsView->geometry();
+		tri->setPoints(rect.left(), event->pos().y(), rect.width());
+		this->scene->addItem(tri);
 	}
-	QRect g = this->ui.scaleWidget->geometry();
-	std::cout << g.left() << "  " << g.right() << "  " << g.top() << "  " << g.bottom() << std::endl;
-	std::cout << this->ui.scaleWidget->startBorderDist() << "  " << this->ui.scaleWidget->endBorderDist() << std::endl;
 }

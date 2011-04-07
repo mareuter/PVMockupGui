@@ -20,6 +20,7 @@
 AxisInteractor::AxisInteractor(QWidget *parent) : QWidget(parent)
 {
 	this->ui.setupUi(this);
+	this->ui.graphicsView->setRenderHint(QPainter::Antialiasing, true);
 	this->scene = new QGraphicsScene(this);
 	this->ui.graphicsView->setScene(this->scene);
 	this->ui.scaleWidget->setAlignment(QwtScaleDraw::LeftScale);

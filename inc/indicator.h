@@ -19,6 +19,7 @@ public:
 	Indicator(QGraphicsItem *parent = 0);
 	virtual ~Indicator() {}
 	void setPoints(int tip, int level, int height);
+	void printSelf();
 
 private:
 	QColor fillColor;

@@ -1,3 +1,9 @@
 This is a mockup of a visualization interface based on ParaView for the 
 Mantid project. The CMake system does not use the build_paraview_client since 
 the code is due to be embedded into the MantidPlot GUI.
+
+To run the program effectively, the Mantid ParaView plugins need to be brought
+in by the following process. A directory should be created that contains 
+symbolic links to the Mantid ParaView plugins. Next, the PV_PLUGIN_DIR 
+environmental variable needs to be set. Once these two steps are completed, 
+the PVMockupGui executable should function properly.

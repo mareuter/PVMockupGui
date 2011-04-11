@@ -41,7 +41,6 @@ void AxisInteractor::setInformation(QString title, double min, double max)
 
 void AxisInteractor::mousePressEvent(QMouseEvent *event)
 {
-	std::cout << event->pos().x() << "  " << event->pos().y() << std::endl;
 	switch (event->button())
 	{
 	case Qt::RightButton:

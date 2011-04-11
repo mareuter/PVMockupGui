@@ -30,10 +30,11 @@ protected:
 	void mousePressEvent(QMouseEvent *event);
 
 private:
-	Ui::AxisInteractor ui;
 	QwtScaleEngine *engine;
-	QwtScaleTransformation *transform;
+	bool isSceneGeomInit;
 	QGraphicsScene *scene;
+	QwtScaleTransformation *transform;
+	Ui::AxisInteractor ui;
 };
 
 #endif /* AXISINTERACTOR_H_ */

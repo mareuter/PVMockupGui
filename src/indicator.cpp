@@ -9,8 +9,10 @@
 
 #include <QBrush>
 #include <QPen>
+#include <QPoint>
 #include <QPointF>
 #include <QPolygonF>
+#include <QRect>
 
 #include <iostream>
 #include <vector>
@@ -23,21 +25,21 @@ Indicator::Indicator(QGraphicsItem *parent) : QGraphicsPolygonItem(parent)
 	this->setOpacity(1.0);
 	this->setBrush(QBrush(this->fillColor));
 	this->setPen(QPen(this->outlineColor));
-	//this->setFlags(QGraphicsItem::ItemIsMovable & QGraphicsItem::ItemIsSelectable);
+	this->setFlags(QGraphicsItem::ItemIsMovable & QGraphicsItem::ItemIsSelectable);
 	this->setSelected(true);
 }
 
-void Indicator::setPoints(int tip, int level, int height)
+void Indicator::setPoints(const QPoint &eloc, const QRect &rect)
 {
-	std::cout << "Pointer: " << tip << ", " << level << ", " << height << std::endl;
-	int half_height = (height - 2) / 2;
-	path << QPointF(-half_height, 0);
-	path << QPointF(half_height, this->half_base);
-	path << QPointF(half_height, -this->half_base);
+	int half_width = rect.width() / 2;
+	path << QPoint(-half_width, 0);
+	path << QPointF(half_width, this->half_base);
+	path << QPointF(half_width, -this->half_base);
 	// Close the polygon
-	path << QPointF(-half_height, 0);
+	path << QPointF(-half_width, 0);
 	this->setPolygon(path);
-	//this->setPos(QPointF(half_height, level));
+	double height_loc = eloc.y() - this->half_base / 2;
+	this->setPos(QPointF(rect.left() + half_width, height_loc));
 }
 
 void Indicator::printSelf()

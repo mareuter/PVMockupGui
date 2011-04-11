@@ -21,8 +21,9 @@
 #include <iostream>
 AxisInteractor::AxisInteractor(QWidget *parent) : QWidget(parent)
 {
-	this->ui.setupUi(this);
 	this->scene = new QGraphicsScene(this);
+	this->scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+	this->ui.setupUi(this);
 	this->ui.graphicsView->setScene(this->scene);
 	this->ui.scaleWidget->setAlignment(QwtScaleDraw::LeftScale);
 	this->engine = new QwtLinearScaleEngine;
@@ -44,25 +45,10 @@ void AxisInteractor::mousePressEvent(QMouseEvent *event)
 	case Qt::RightButton:
 	{
 		QRect gv_rect = this->ui.graphicsView->geometry();
-		QRect sw_rect = this->ui.scaleWidget->geometry();
-		std::cout << "GV: " << gv_rect.left() << ", " << gv_rect.top() << ", " << gv_rect.right() << ", " << gv_rect.bottom() << std::endl;
-		std::cout << "SW: " << sw_rect.left() << ", " << sw_rect.top() << ", " << sw_rect.right() << ", " << sw_rect.bottom() << std::endl;
-
+		this->scene->setSceneRect(gv_rect);
 		Indicator *tri = new Indicator();
-		tri->setPoints(gv_rect.left(), event->pos().y(), gv_rect.width());
-		std::cout << "Position: " << tri->pos().x() << ", " << tri->pos().y() << std::endl;
-		std::cout << "Triangle Added: " << std::endl;
-		tri->printSelf();
+		tri->setPoints(event->pos(), gv_rect);
 		this->scene->addItem(tri);
-		QList<QGraphicsItem *> items = this->scene->items();
-		std::cout << "Current Scene:" << std::endl;
-		for (int j = 0; j < items.size(); j++)
-		{
-			Indicator *ind = qgraphicsitem_cast<Indicator *>(items.at(j));
-			std::cout << "Triangle " << j << ":" << std::endl;
-			ind->printSelf();
-			std::cout << "Position: " << ind->pos().x() << ", " << ind->pos().y() << std::endl;
-		}
 	}
 	default:
 		QWidget::mousePressEvent(event);

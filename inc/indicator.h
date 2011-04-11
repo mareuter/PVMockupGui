@@ -11,14 +11,16 @@
 #include <QGraphicsItem>
 
 class QColor;
+class QPoint;
 class QPolygonF;
+class QRect;
 
 class Indicator: public QGraphicsPolygonItem
 {
 public:
 	Indicator(QGraphicsItem *parent = 0);
 	virtual ~Indicator() {}
-	void setPoints(int tip, int level, int height);
+	void setPoints(const QPoint &eloc, const QRect &rect);
 	void printSelf();
 
 private:

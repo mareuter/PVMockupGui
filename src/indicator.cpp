@@ -8,6 +8,7 @@
 #include "indicator.h"
 
 #include <QBrush>
+#include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QPoint>
 #include <QPointF>
@@ -39,7 +40,8 @@ void Indicator::setPoints(const QPoint &eloc, const QRect &rect)
 	path << QPointF(-half_width, 0);
 	this->setPolygon(path);
 	double height_loc = eloc.y() - this->half_base / 2;
-	this->setPos(QPointF(rect.left() + half_width, height_loc));
+	this->left_edge = rect.left() + half_width;
+	this->setPos(QPointF(this->left_edge, height_loc));
 }
 
 void Indicator::printSelf()
@@ -54,5 +56,24 @@ void Indicator::printSelf()
 	{
 		std::cout << "Point " << i << ": " << poly.at(i).x();
 		std::cout << ", " << poly.at(i).y() << std::endl;
+	}
+}
+
+void Indicator::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+	QPointF pos = this->mapToScene(event->pos());
+	this->setPos(this->left_edge, pos.y() - this->half_base / 2);
+}
+
+void Indicator::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+	switch (event->button())
+	{
+	case Qt::LeftButton:
+	{
+		this->setSelected(false);
+	}
+	default:
+		QGraphicsPolygonItem::mouseReleaseEvent(event);
 	}
 }

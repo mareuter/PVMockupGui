@@ -14,6 +14,7 @@
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 #include <QList>
 #include <QMouseEvent>
 #include <QString>

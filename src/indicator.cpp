@@ -25,8 +25,8 @@ Indicator::Indicator(QGraphicsItem *parent) : QGraphicsPolygonItem(parent)
 	this->setOpacity(1.0);
 	this->setBrush(QBrush(this->fillColor));
 	this->setPen(QPen(this->outlineColor));
-	this->setFlags(QGraphicsItem::ItemIsMovable & QGraphicsItem::ItemIsSelectable);
-	this->setSelected(true);
+	this->setFlags(QGraphicsItem::ItemIsMovable |
+			QGraphicsItem::ItemIsSelectable);
 }
 
 void Indicator::setPoints(const QPoint &eloc, const QRect &rect)

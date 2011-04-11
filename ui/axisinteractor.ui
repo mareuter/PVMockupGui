@@ -37,6 +37,12 @@
        <height>0</height>
       </size>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 2px solid;</string>
+     </property>
     </widget>
    </item>
    <item row="0" column="1">
@@ -60,7 +66,7 @@
       <bool>true</bool>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>

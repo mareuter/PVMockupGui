@@ -40,9 +40,6 @@
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
     </widget>
    </item>
    <item row="0" column="1">

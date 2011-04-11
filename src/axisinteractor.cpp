@@ -23,6 +23,7 @@ AxisInteractor::AxisInteractor(QWidget *parent) : QWidget(parent)
 {
 	this->scene = new QGraphicsScene(this);
 	this->scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+	this->isSceneGeomInit = false;
 	this->ui.setupUi(this);
 	this->ui.graphicsView->setScene(this->scene);
 	this->ui.scaleWidget->setAlignment(QwtScaleDraw::LeftScale);
@@ -45,7 +46,11 @@ void AxisInteractor::mousePressEvent(QMouseEvent *event)
 	case Qt::RightButton:
 	{
 		QRect gv_rect = this->ui.graphicsView->geometry();
-		this->scene->setSceneRect(gv_rect);
+		if (! this->isSceneGeomInit)
+		{
+			this->scene->setSceneRect(gv_rect);
+			this->isSceneGeomInit = true;
+		}
 		Indicator *tri = new Indicator();
 		tri->setPoints(event->pos(), gv_rect);
 		this->scene->addItem(tri);

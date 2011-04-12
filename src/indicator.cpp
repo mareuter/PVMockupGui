@@ -39,7 +39,7 @@ void Indicator::setPoints(const QPoint &eloc, const QRect &rect)
 	// Close the polygon
 	path << QPointF(-half_width, 0);
 	this->setPolygon(path);
-	double height_loc = eloc.y() - this->half_base / 2;
+	double height_loc = this->fixVerticalPos(eloc.y());
 	this->left_edge = rect.left() + half_width;
 	this->setPos(QPointF(this->left_edge, height_loc));
 }
@@ -59,10 +59,15 @@ void Indicator::printSelf()
 	}
 }
 
+int Indicator::fixVerticalPos(int ylevel)
+{
+	return ylevel - this->half_base / 2;
+}
+
 void Indicator::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 	QPointF pos = this->mapToScene(event->pos());
-	this->setPos(this->left_edge, pos.y() - this->half_base / 2);
+	this->setPos(this->left_edge, this->fixVerticalPos(pos.y()));
 }
 
 void Indicator::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

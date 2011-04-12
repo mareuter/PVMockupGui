@@ -29,6 +29,8 @@ protected:
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+	int fixVerticalPos(int ylevel);
+
 	QColor fillColor;
 	QColor outlineColor;
 	QPolygonF path;

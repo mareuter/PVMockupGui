@@ -27,8 +27,11 @@ public:
 	virtual ~AxisInteractor() {}
 	void setInformation(QString title, double min, double max);
 
+protected slots:
+	void createIndicator(const QPoint &point);
+
 protected:
-	void mousePressEvent(QMouseEvent *event);
+	bool eventFilter(QObject *obj, QEvent *event);
 
 private:
 	QwtScaleEngine *engine;

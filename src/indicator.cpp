@@ -39,7 +39,7 @@ void Indicator::setPoints(const QPoint &eloc, const QRect &rect)
 	// Close the polygon
 	path << QPointF(-half_width, 0);
 	this->setPolygon(path);
-	double height_loc = this->fixVerticalPos(eloc.y());
+	double height_loc = eloc.y() + 2 * this->half_base;
 	this->left_edge = rect.left() + half_width;
 	this->setPos(QPointF(this->left_edge, height_loc));
 }

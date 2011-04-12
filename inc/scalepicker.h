@@ -25,6 +25,7 @@ public:
 
 signals:
     void clicked(double value);
+    void makeIndicator(const QPoint &point);
 
 private:
     void mouseClicked(const QwtScaleWidget *, const QPoint &);

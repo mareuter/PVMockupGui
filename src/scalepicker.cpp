@@ -15,6 +15,7 @@
 #include <QMouseEvent>
 #include <QRect>
 
+#include <iostream>
 ScalePicker::ScalePicker(QwtScaleWidget *scale) : QObject(scale)
 {
 	((QwtScaleWidget *)this->parent())->installEventFilter(this);
@@ -46,7 +47,6 @@ void ScalePicker::mouseClicked(const QwtScaleWidget *scale, const QPoint &pos)
         // translate the position in a value on the scale
 
         double value = 0.0;
-        int axis = -1;
 
         const QwtScaleDraw *sd = scale->scaleDraw();
         switch(scale->alignment())
@@ -72,6 +72,8 @@ void ScalePicker::mouseClicked(const QwtScaleWidget *scale, const QPoint &pos)
                 break;
             }
         }
+        std::cout << "Axis location: " << value << std::endl;
+        emit makeIndicator(pos);
         emit clicked(value);
     }
 }

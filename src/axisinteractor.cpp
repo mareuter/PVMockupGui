@@ -28,10 +28,13 @@ AxisInteractor::AxisInteractor(QWidget *parent) : QWidget(parent)
 	this->isSceneGeomInit = false;
 	this->ui.setupUi(this);
 	this->ui.graphicsView->setScene(this->scene);
+	this->ui.graphicsView->installEventFilter(this);
 	this->ui.scaleWidget->setAlignment(QwtScaleDraw::LeftScale);
 	this->engine = new QwtLinearScaleEngine;
 	this->transform = new QwtScaleTransformation(QwtScaleTransformation::Linear);
 	this->scalePicker = new ScalePicker(this->ui.scaleWidget);
+	QObject::connect(this->scalePicker, SIGNAL(makeIndicator(const QPoint &)),
+			this, SLOT(createIndicator(const QPoint &)));
 }
 
 void AxisInteractor::setInformation(QString title, double min, double max)
@@ -41,23 +44,45 @@ void AxisInteractor::setInformation(QString title, double min, double max)
 			engine->divideScale(min, max, 10, 0));
 }
 
-void AxisInteractor::mousePressEvent(QMouseEvent *event)
+void AxisInteractor::createIndicator(const QPoint &point)
 {
-	switch (event->button())
+	QRect gv_rect = this->ui.graphicsView->geometry();
+	if (! this->isSceneGeomInit)
 	{
-	case Qt::RightButton:
-	{
-		QRect gv_rect = this->ui.graphicsView->geometry();
-		if (! this->isSceneGeomInit)
-		{
-			this->scene->setSceneRect(gv_rect);
-			this->isSceneGeomInit = true;
-		}
-		Indicator *tri = new Indicator();
-		tri->setPoints(event->pos(), gv_rect);
-		this->scene->addItem(tri);
+		this->scene->setSceneRect(gv_rect);
+		this->isSceneGeomInit = true;
 	}
-	default:
-		QWidget::mousePressEvent(event);
+	Indicator *tri = new Indicator();
+	tri->setPoints(point, gv_rect);
+	this->scene->addItem(tri);
+}
+
+bool AxisInteractor::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == this->ui.graphicsView)
+	{
+		if (event->type() == QEvent::MouseButtonPress ||
+				event->type() == QEvent::MouseButtonDblClick)
+		{
+			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+			if (mouseEvent->button() == Qt::RightButton)
+			{
+				// Want to eat these so users don't add the indicators
+				// via the QGraphicsView (Yum!)
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return AxisInteractor::eventFilter(obj, event);
 	}
 }

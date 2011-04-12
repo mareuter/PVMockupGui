@@ -66,16 +66,19 @@ ${QT_LIBRARIES})
 set (TEST_INCLUDE_FILES
   inc/axisinteractor.h
   inc/indicator.h
+  inc/scalepicker.h
 )
 
 set (TEST_SOURCE_FILES
   src/axisinteractor.cpp
   src/indicator.cpp
+  src/scalepicker.cpp
   src/test.cpp
 )
 
 qt4_wrap_cpp(TEST_MOC_SOURCES
   inc/axisinteractor.h
+  inc/scalepicker.h
 )
 
 qt4_wrap_ui(TEST_UI_BUILT_SOURCES

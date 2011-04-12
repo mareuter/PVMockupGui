@@ -6,6 +6,7 @@
  */
 #include "axisinteractor.h"
 #include "indicator.h"
+#include "scalepicker.h"
 
 #include "qwt_scale_draw.h"
 #include "qwt_scale_engine.h"
@@ -30,6 +31,7 @@ AxisInteractor::AxisInteractor(QWidget *parent) : QWidget(parent)
 	this->ui.scaleWidget->setAlignment(QwtScaleDraw::LeftScale);
 	this->engine = new QwtLinearScaleEngine;
 	this->transform = new QwtScaleTransformation(QwtScaleTransformation::Linear);
+	this->scalePicker = new ScalePicker(this->ui.scaleWidget);
 }
 
 void AxisInteractor::setInformation(QString title, double min, double max)

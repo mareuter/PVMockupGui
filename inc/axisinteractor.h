@@ -16,6 +16,7 @@ class QMouseEvent;
 class QString;
 class QwtScaleEngine;
 class QwtScaleTransformation;
+class ScalePicker;
 
 class AxisInteractor : public QWidget
 {
@@ -32,6 +33,7 @@ protected:
 private:
 	QwtScaleEngine *engine;
 	bool isSceneGeomInit;
+	ScalePicker *scalePicker;
 	QGraphicsScene *scene;
 	QwtScaleTransformation *transform;
 	Ui::AxisInteractor ui;

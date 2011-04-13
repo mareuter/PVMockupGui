@@ -10,8 +10,10 @@
 #include "pqRenderView.h"
 #include "vtkDataObject.h"
 #include "vtkProperty.h"
+#include "vtkSMProperty.h"
 #include "vtkSMPropertyHelper.h"
 #include "vtkSMProxy.h"
+#include "vtkSMViewProxy.h"
 
 #include <iostream>
 MultiSliceView::MultiSliceView(QWidget *parent) : IView(parent)
@@ -31,10 +33,8 @@ pqRenderView* MultiSliceView::getView()
 	return this->mainView.data();
 }
 
-void MultiSliceView::render()
+void MultiSliceView::setupData()
 {
-	this->origSource = pqActiveObjects::instance().activeSource();
-
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
 
 	pqDataRepresentation *drep = builder->createDataRepresentation(
@@ -44,7 +44,19 @@ void MultiSliceView::render()
 	pqPipelineRepresentation *originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
 	originSourceRepr->colorByArray("signal",
 			vtkDataObject::FIELD_ASSOCIATION_CELLS);
+}
 
+void MultiSliceView::setupAxisInfo()
+{
+	const char *geomXML = vtkSMPropertyHelper(this->origSource->getProxy(),
+			"InputGeometryXML").GetAsString();
+}
+
+void MultiSliceView::render()
+{
+	this->origSource = pqActiveObjects::instance().activeSource();
+	this->setupData();
+	this->setupAxisInfo();
 	this->mainView->resetDisplay();
 	this->mainView->render();
 }

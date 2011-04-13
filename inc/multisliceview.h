@@ -22,6 +22,8 @@ public:
 
 private:
     Q_DISABLE_COPY(MultiSliceView);
+    void setupAxisInfo();
+    void setupData();
 
     QPointer<pqRenderView> mainView;
     pqPipelineSource *origSource;

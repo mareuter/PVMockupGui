@@ -15,7 +15,7 @@ class mpMainWindow : public QMainWindow, public Ui::mpMainWindow
     Q_OBJECT
 
 public:
-    enum Views {STANDARD, THREESLICE};
+    enum Views {STANDARD, THREESLICE, MULTISLICE};
 
     mpMainWindow(QWidget *parent = 0);
     virtual ~mpMainWindow();
@@ -26,6 +26,7 @@ protected slots:
 
 signals:
 	void disableViewModes();
+	void enableMultiSlice();
 	void enableThreeSlice();
 
 private:

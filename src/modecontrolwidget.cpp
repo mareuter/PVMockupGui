@@ -9,6 +9,8 @@ ModeControlWidget::ModeControlWidget(QWidget *parent)
 			SLOT(disableAll()));
 	QObject::connect(parent->parent(), SIGNAL(enableThreeSlice()), this,
 			SLOT(enableThreeSliceButton()));
+	QObject::connect(parent->parent(), SIGNAL(enableMultiSlice()), this,
+			SLOT(enableMultiSliceButton()));
 	QObject::connect(this->ui.multiSliceButton, SIGNAL(clicked()),
 			this, SLOT(onMultiSliceViewButtonClicked()));
 	QObject::connect(this->ui.standardButton, SIGNAL(clicked()),
@@ -27,6 +29,11 @@ void ModeControlWidget::disableAll()
 	this->ui.multiSliceButton->setEnabled(false);
 	this->ui.standardButton->setEnabled(false);
 	this->ui.threeSliceButton->setEnabled(false);
+}
+
+void ModeControlWidget::enableMultiSliceButton()
+{
+	this->ui.multiSliceButton->setEnabled(true);
 }
 
 void ModeControlWidget::enableThreeSliceButton()

@@ -1,5 +1,6 @@
 #include "mpmainwindow.h"
 
+#include "multisliceview.h"
 #include "standardview.h"
 #include "threesliceview.h"
 #include "timecontrolwidget.h"
@@ -56,8 +57,10 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   this->setMainWindowComponentsForView();
 
   // Set the three slice view as hidden view for later use
+  //this->hiddenView = this->setMainViewWidget(this->viewWidget,
+	//	  mpMainWindow::THREESLICE);
   this->hiddenView = this->setMainViewWidget(this->viewWidget,
-		  mpMainWindow::THREESLICE);
+		  mpMainWindow::MULTISLICE);
   this->hiddenView->hide();
 
   // Disable all view buttons until data load
@@ -84,6 +87,12 @@ IView* mpMainWindow::setMainViewWidget(QWidget *container, Views v)
 	{
 		ThreeSliceView *tsv = new ThreeSliceView(container);
 		view = tsv;
+	}
+	break;
+	case mpMainWindow::MULTISLICE:
+	{
+		view = new MultiSliceView(container);
+		//view = msv;
 	}
 	break;
 	}
@@ -117,7 +126,8 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
   this->currentView->render();
-  emit enableThreeSlice();
+  //emit enableThreeSlice();
+  emit enableMultiSlice();
 }
 
 void mpMainWindow::switchViews()

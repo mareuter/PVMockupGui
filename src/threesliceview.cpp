@@ -52,6 +52,7 @@ pqRenderView* ThreeSliceView::create2dRenderView(QWidget* widget)
 
 	return view;
 }
+
 pqRenderView* ThreeSliceView::getView()
 {
 	return this->mainView.data();

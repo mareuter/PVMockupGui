@@ -6,6 +6,7 @@
 #include "iview.h"
 #include "ui_multisliceview.h"
 
+class pqPipelineSource;
 class pqRenderView;
 
 class MultiSliceView : public IView
@@ -22,8 +23,9 @@ public:
 private:
     Q_DISABLE_COPY(MultiSliceView);
 
-    Ui::MultiSliceViewClass ui;
     QPointer<pqRenderView> mainView;
+    pqPipelineSource *origSource;
+    Ui::MultiSliceViewClass ui;
 };
 
 #endif // MULTISLICEVIEW_H

@@ -91,8 +91,8 @@ IView* mpMainWindow::setMainViewWidget(QWidget *container, Views v)
 	break;
 	case mpMainWindow::MULTISLICE:
 	{
-		view = new MultiSliceView(container);
-		//view = msv;
+		MultiSliceView *msv = new MultiSliceView(container);
+		view = msv;
 	}
 	break;
 	}

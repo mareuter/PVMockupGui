@@ -19,7 +19,9 @@ include_directories(
 
 # These are the C++ files to be compiled.
 set (INCLUDE_FILES
+  inc/axisinformation.h
   inc/axisinteractor.h
+  inc/geometryparser.h
   inc/indicator.h
   inc/iview.h
   inc/modecontrolwidget.h
@@ -31,7 +33,9 @@ set (INCLUDE_FILES
   inc/timecontrolwidget.h
 )
 set (SOURCE_FILES
+  src/axisinformation.cpp
   src/axisinteractor.cpp
+  src/geometryparser.cpp
   src/indicator.cpp
   src/iview.cpp
   src/main.cpp

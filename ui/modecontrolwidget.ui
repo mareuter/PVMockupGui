@@ -29,18 +29,31 @@
    <item row="0" column="0">
     <widget class="QGroupBox" name="modeControlBox">
      <property name="styleSheet">
-      <string notr="true">QGroupBox { border: 2px groove black ; }</string>
+      <string notr="true">QGroupBox { 
+border: 2px groove black ;
+border-radius: 5px;
+margin-top: 1ex;
+}
+
+QGroupBox::title { 
+subcontrol-origin: margin;
+subcontrol-position: top center; 
+padding: 0 3px;
+}</string>
      </property>
      <property name="title">
       <string>View Mode</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
      </property>
      <property name="flat">
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
       <item row="0" column="0">
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">

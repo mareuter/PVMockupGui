@@ -1,4 +1,5 @@
 #include "multisliceview.h"
+#include "geometryparser.h"
 
 #include "pqActiveObjects.h"
 #include "pqApplicationCore.h"
@@ -50,6 +51,8 @@ void MultiSliceView::setupAxisInfo()
 {
 	const char *geomXML = vtkSMPropertyHelper(this->origSource->getProxy(),
 			"InputGeometryXML").GetAsString();
+	GeometryParser parser(geomXML);
+	AxisInformation *xinfo = parser.getAxisInfo("XDimension");
 }
 
 void MultiSliceView::render()

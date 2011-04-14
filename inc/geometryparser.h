@@ -11,10 +11,14 @@
 #include "Poco/DOM/AutoPtr.h"
 #include "Poco/DOM/Document.h"
 
+class AxisInformation;
+
 class GeometryParser {
 public:
 	GeometryParser(const char *xml);
 	virtual ~GeometryParser() {};
+
+	AxisInformation *getAxisInfo(const std::string dimension);
 
 private:
 	Poco::AutoPtr<Poco::XML::Document> pDoc;

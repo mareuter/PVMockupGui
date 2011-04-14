@@ -10,6 +10,7 @@ include(${PARAVIEW_USE_FILE})
 include(${ParaView_CMAKE_DIR}/ParaViewPlugins.cmake)
 
 find_package(Qwt)
+find_package(Poco)
 
 # Setup the include locations.
 include_directories(
@@ -78,7 +79,7 @@ ${INCLUDE_FILES} ${SOURCE_FILES} ${MOC_SRCS} ${UI_BUILT_SOURCES})
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
 pqCore pqComponents pqApplicationComponents
-${QT_LIBRARIES} ${QWT_LIBRARIES})
+${QT_LIBRARIES} ${QWT_LIBRARIES} ${POCO_LIBRARIES})
 
 set (TEST_INCLUDE_FILES
   inc/axisinteractor.h

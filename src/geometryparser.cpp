@@ -7,7 +7,12 @@
 
 #include <geometryparser.h>
 
-GeometryParser::GeometryParser()
-{
+#include <axisinformation.h>
 
+#include "Poco/DOM/DOMParser.h"
+
+GeometryParser::GeometryParser(const char *xml)
+{
+	Poco::XML::DOMParser parser;
+	this->pDoc = parser.parseString(Poco::XML::XMLString(xml));
 }

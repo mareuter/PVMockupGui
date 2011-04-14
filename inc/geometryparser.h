@@ -8,10 +8,16 @@
 #ifndef GEOMETRYPARSER_H_
 #define GEOMETRYPARSER_H_
 
+#include "Poco/DOM/AutoPtr.h"
+#include "Poco/DOM/Document.h"
+
 class GeometryParser {
 public:
-	GeometryParser();
+	GeometryParser(const char *xml);
 	virtual ~GeometryParser() {};
+
+private:
+	Poco::AutoPtr<Poco::XML::Document> pDoc;
 };
 
 #endif /* GEOMETRYPARSER_H_ */

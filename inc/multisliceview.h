@@ -6,6 +6,7 @@
 #include "iview.h"
 #include "ui_multisliceview.h"
 
+class pqPipelineRepresentation;
 class pqPipelineSource;
 class pqRenderView;
 
@@ -27,6 +28,7 @@ private:
 
     QPointer<pqRenderView> mainView;
     pqPipelineSource *origSource;
+    QPointer<pqPipelineRepresentation> originSourceRepr;
     Ui::MultiSliceViewClass ui;
 };
 

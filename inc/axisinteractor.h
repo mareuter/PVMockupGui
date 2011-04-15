@@ -25,6 +25,7 @@ class AxisInteractor : public QWidget
 public:
 	AxisInteractor(QWidget *parent = 0);
 	virtual ~AxisInteractor() {}
+	ScalePicker *getScalePicker() { return this->scalePicker; }
 	void setInformation(QString title, double min, double max);
 
 protected slots:

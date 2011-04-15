@@ -2,6 +2,7 @@
 
 #include "axisinformation.h"
 #include "geometryparser.h"
+#include "scalepicker.h"
 
 #include "pqActiveObjects.h"
 #include "pqApplicationCore.h"
@@ -26,6 +27,13 @@ MultiSliceView::MultiSliceView(QWidget *parent) : IView(parent)
 	this->ui.setupUi(this);
 
 	this->mainView = this->createRenderView(this->ui.renderFrame);
+
+	QObject::connect(this->ui.xAxisWidget->getScalePicker(),
+			SIGNAL(clicked(double)), this, SLOT(makeXcut(double)));
+	QObject::connect(this->ui.yAxisWidget->getScalePicker(),
+			SIGNAL(clicked(double)), this, SLOT(makeYcut(double)));
+	QObject::connect(this->ui.zAxisWidget->getScalePicker(),
+			SIGNAL(clicked(double)), this, SLOT(makeZcut(double)));
 }
 
 MultiSliceView::~MultiSliceView()
@@ -77,4 +85,58 @@ void MultiSliceView::render()
 	this->setupAxisInfo();
 	this->mainView->resetDisplay();
 	this->mainView->render();
+}
+
+void MultiSliceView::makeXcut(double value)
+{
+	double origin[3], orient[3];
+	origin[0] = value;
+	origin[1] = 0.0;
+	origin[2] = 0.0;
+	orient[0] = 1.0;
+	orient[1] = 0.0;
+	orient[2] = 0.0;
+	this->makeCut(origin, orient);
+}
+
+void MultiSliceView::makeYcut(double value)
+{
+	double origin[3], orient[3];
+	origin[0] = 0.0;
+	origin[1] = value;
+	origin[2] = 0.0;
+	orient[0] = 0.0;
+	orient[1] = 1.0;
+	orient[2] = 0.0;
+	this->makeCut(origin, orient);
+}
+
+void MultiSliceView::makeZcut(double value)
+{
+	double origin[3], orient[3];
+	origin[0] = value;
+	origin[1] = 0.0;
+	origin[2] = 0.0;
+	orient[0] = 0.0;
+	orient[1] = 0.0;
+	orient[2] = 1.0;
+	this->makeCut(origin, orient);
+}
+
+void MultiSliceView::makeCut(double origin[], double orient[])
+{
+	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
+
+	pqPipelineSource *cut = builder->createFilter("filters", "Cut", this->origSource);
+	pqDataRepresentation *trepr = builder->createDataRepresentation(
+			cut->getOutputPort(0),this->mainView);
+	pqPipelineRepresentation *repr = qobject_cast<pqPipelineRepresentation *>(trepr);
+	vtkSMProxy *plane = vtkSMPropertyHelper(cut->getProxy(),
+			"CutFunction").GetAsProxy();
+
+	repr->colorByArray("signal", vtkDataObject::FIELD_ASSOCIATION_CELLS);
+
+	vtkSMPropertyHelper(plane, "Origin").Set(origin, 3);
+	vtkSMPropertyHelper(plane, "Normal").Set(orient, 3);
+	trepr->getProxy()->UpdateVTKObjects();
 }

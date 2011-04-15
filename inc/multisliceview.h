@@ -21,8 +21,14 @@ public:
     pqRenderView* getView();
     void render();
 
+protected slots:
+	void makeXcut(double value);
+	void makeYcut(double value);
+	void makeZcut(double value);
+
 private:
     Q_DISABLE_COPY(MultiSliceView);
+    void makeCut(double origin[], double orient[]);
     void setupAxisInfo();
     void setupData();
 

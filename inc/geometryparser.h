@@ -21,6 +21,8 @@ public:
 	AxisInformation *getAxisInfo(const std::string dimension);
 
 private:
+	double convertBounds(Poco::XML::XMLString val);
+
 	Poco::AutoPtr<Poco::XML::Document> pDoc;
 };
 

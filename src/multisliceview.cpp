@@ -19,7 +19,7 @@
 #include <iostream>
 MultiSliceView::MultiSliceView(QWidget *parent) : IView(parent)
 {
-	ui.setupUi(this);
+	this->ui.setupUi(this);
 
 	this->mainView = this->createRenderView(this->ui.renderFrame);
 }
@@ -53,6 +53,8 @@ void MultiSliceView::setupAxisInfo()
 			"InputGeometryXML").GetAsString();
 	GeometryParser parser(geomXML);
 	AxisInformation *xinfo = parser.getAxisInfo("XDimension");
+	AxisInformation *yinfo = parser.getAxisInfo("YDimension");
+	AxisInformation *zinfo = parser.getAxisInfo("ZDimension");
 }
 
 void MultiSliceView::render()

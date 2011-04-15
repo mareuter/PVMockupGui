@@ -1,4 +1,6 @@
 #include "multisliceview.h"
+
+#include "axisinformation.h"
 #include "geometryparser.h"
 
 #include "pqActiveObjects.h"
@@ -15,6 +17,8 @@
 #include "vtkSMPropertyHelper.h"
 #include "vtkSMProxy.h"
 #include "vtkSMViewProxy.h"
+
+#include <QString>
 
 #include <iostream>
 MultiSliceView::MultiSliceView(QWidget *parent) : IView(parent)
@@ -55,6 +59,15 @@ void MultiSliceView::setupAxisInfo()
 	AxisInformation *xinfo = parser.getAxisInfo("XDimension");
 	AxisInformation *yinfo = parser.getAxisInfo("YDimension");
 	AxisInformation *zinfo = parser.getAxisInfo("ZDimension");
+
+	this->ui.xAxisWidget->setInformation(QString(xinfo->getTitle().c_str()),
+				xinfo->getMinimum(), xinfo->getMaximum());
+	this->ui.yAxisWidget->setInformation(QString(yinfo->getTitle().c_str()),
+				yinfo->getMinimum(), yinfo->getMaximum());
+	this->ui.zAxisWidget->setInformation(QString(zinfo->getTitle().c_str()),
+			zinfo->getMinimum(), zinfo->getMaximum());
+
+	delete xinfo, yinfo, zinfo;
 }
 
 void MultiSliceView::render()

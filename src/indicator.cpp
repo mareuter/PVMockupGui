@@ -77,8 +77,10 @@ void Indicator::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 	case Qt::LeftButton:
 	{
 		this->setSelected(false);
+		break;
 	}
 	default:
 		QGraphicsPolygonItem::mouseReleaseEvent(event);
+		break;
 	}
 }

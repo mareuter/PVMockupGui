@@ -8,10 +8,10 @@
 #include "indicator.h"
 #include "scalepicker.h"
 
-#include "qwt_scale_draw.h"
-#include "qwt_scale_engine.h"
-#include "qwt_scale_map.h"
-#include "qwt_scale_widget.h"
+#include <qwt_scale_draw.h>
+#include <qwt_scale_engine.h>
+#include <qwt_scale_map.h>
+#include <qwt_scale_widget.h>
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>

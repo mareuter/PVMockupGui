@@ -7,9 +7,9 @@
 
 #include "scalepicker.h"
 
-#include "qwt_scale_draw.h"
-#include "qwt_scale_map.h"
-#include "qwt_scale_widget.h"
+#include <qwt_scale_draw.h>
+#include <qwt_scale_map.h>
+#include <qwt_scale_widget.h>
 
 #include <QEvent>
 #include <QMouseEvent>

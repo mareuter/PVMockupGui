@@ -20,6 +20,7 @@
 #include <QMouseEvent>
 #include <QString>
 
+#include <cmath>
 #include <iostream>
 AxisInteractor::AxisInteractor(QWidget *parent) : QWidget(parent)
 {
@@ -41,7 +42,7 @@ void AxisInteractor::setInformation(QString title, double min, double max)
 {
 	this->ui.scaleWidget->setTitle(title);
 	this->ui.scaleWidget->setScaleDiv(transform,
-			engine->divideScale(min, max, 10, 0));
+			engine->divideScale(floor(min), ceil(max), 10, 0));
 }
 
 void AxisInteractor::createIndicator(const QPoint &point)

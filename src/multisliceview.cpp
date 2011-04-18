@@ -139,4 +139,7 @@ void MultiSliceView::makeCut(double origin[], double orient[])
 	vtkSMPropertyHelper(plane, "Origin").Set(origin, 3);
 	vtkSMPropertyHelper(plane, "Normal").Set(orient, 3);
 	trepr->getProxy()->UpdateVTKObjects();
+	// This is how to get the name of the slice object in the current
+	// pipeline.
+	//std::cout << "Cut: " << cut->getSMName().toStdString() << std::endl;
 }

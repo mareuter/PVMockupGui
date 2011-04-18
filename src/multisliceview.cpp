@@ -114,9 +114,9 @@ void MultiSliceView::makeYcut(double value)
 void MultiSliceView::makeZcut(double value)
 {
 	double origin[3], orient[3];
-	origin[0] = value;
+	origin[0] = 0.0;
 	origin[1] = 0.0;
-	origin[2] = 0.0;
+	origin[2] = value;
 	orient[0] = 0.0;
 	orient[1] = 0.0;
 	orient[2] = 1.0;

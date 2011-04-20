@@ -25,9 +25,10 @@ public:
 
 	Indicator(QGraphicsItem *parent = 0);
 	virtual ~Indicator() {}
+	void printSelf();
 	void setPoints(const QPoint &eloc, const QRect &rect);
 	int type() const { return Type; }
-	void printSelf();
+
 
 protected:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

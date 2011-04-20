@@ -25,6 +25,7 @@
 #include "vtkSMReaderFactory.h"
 
 #include <QHBoxLayout>
+#include <QModelIndex>
 
 #include <iostream>
 
@@ -105,6 +106,13 @@ void mpMainWindow::setMainWindowComponentsForView()
 	this->proxyTabWidget->setView(this->currentView->getView());
 	this->proxyTabWidget->setShowOnAccept(true);
 	this->pipelineBrowser->setActiveView(this->currentView->getView());
+	if (this->currentView->inherits("MultiSliceView"))
+	{
+		QObject::connect(this->pipelineBrowser,
+				SIGNAL(clicked(const QModelIndex &)),
+				static_cast<MultiSliceView *>(this->currentView),
+				SLOT(selectIndicator()));
+	}
 }
 
 void mpMainWindow::onDataLoaded(pqPipelineSource* source)

@@ -12,6 +12,7 @@
 #include "pqPipelineRepresentation.h"
 #include "pqPipelineSource.h"
 #include "pqRenderView.h"
+#include "pqServerManagerSelectionModel.h"
 #include "vtkDataObject.h"
 #include "vtkProperty.h"
 #include "vtkSMProperty.h"
@@ -19,6 +20,7 @@
 #include "vtkSMProxy.h"
 #include "vtkSMViewProxy.h"
 
+#include <QModelIndex>
 #include <QString>
 
 #include <iostream>
@@ -151,4 +153,14 @@ void MultiSliceView::makeCut(double origin[], double orient[])
 	// This is how to get the name of the slice object in the current
 	// pipeline.
 	//std::cout << "Cut: " << cut->getSMName().toStdString() << std::endl;
+}
+
+void MultiSliceView::selectIndicator()
+{
+	pqServerManagerSelectionModel *smsModel = pqApplicationCore::instance()->getSelectionModel();
+	pqPipelineSource *source = qobject_cast<pqPipelineSource *>(smsModel->currentItem());
+	QString name = source->getSMName();
+	this->ui.xAxisWidget->selectIndicator(name);
+	this->ui.yAxisWidget->selectIndicator(name);
+	this->ui.zAxisWidget->selectIndicator(name);
 }

@@ -10,6 +10,8 @@ class pqPipelineRepresentation;
 class pqPipelineSource;
 class pqRenderView;
 
+class QModelIndex;
+
 class MultiSliceView : public IView
 {
     Q_OBJECT
@@ -25,6 +27,7 @@ protected slots:
 	void makeXcut(double value);
 	void makeYcut(double value);
 	void makeZcut(double value);
+	void selectIndicator();
 
 signals:
 	void sliceNamed(const QString &name);

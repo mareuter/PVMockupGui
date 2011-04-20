@@ -75,6 +75,36 @@ void AxisInteractor::setIndicatorName(const QString &name)
 	}
 }
 
+void AxisInteractor::selectIndicator(const QString &name)
+{
+	this->clearSelections();
+	QList<QGraphicsItem *> list = this->scene->items();
+	for (int i = 0; i < list.count(); ++i)
+	{
+		QGraphicsItem *item = list.at(i);
+		if (item->type() == IndicatorItemType)
+		{
+			if (item->toolTip() == name)
+			{
+				item->setSelected(true);
+			}
+		}
+	}
+}
+
+void AxisInteractor::clearSelections()
+{
+	QList<QGraphicsItem *> list = this->scene->selectedItems();
+	for (int i = 0; i < list.count(); ++i)
+	{
+		QGraphicsItem *item = list.at(i);
+		if (item->type() == IndicatorItemType)
+		{
+			item->setSelected(false);
+		}
+	}
+}
+
 bool AxisInteractor::eventFilter(QObject *obj, QEvent *event)
 {
 	if (obj == this->ui.graphicsView)

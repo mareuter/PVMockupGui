@@ -28,7 +28,7 @@ public:
 	void printSelf();
 	void setPoints(const QPoint &eloc, const QRect &rect);
 	int type() const { return Type; }
-
+	void updatePos(const QPoint &pos);
 
 protected:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

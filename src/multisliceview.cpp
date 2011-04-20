@@ -55,6 +55,13 @@ pqRenderView* MultiSliceView::getView()
 	return this->mainView.data();
 }
 
+void MultiSliceView::clearIndicatorSelections()
+{
+	this->ui.xAxisWidget->clearSelections();
+	this->ui.yAxisWidget->clearSelections();
+	this->ui.zAxisWidget->clearSelections();
+}
+
 void MultiSliceView::setupData()
 {
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
@@ -134,6 +141,7 @@ void MultiSliceView::makeZcut(double value)
 
 void MultiSliceView::makeCut(double origin[], double orient[])
 {
+	this->clearIndicatorSelections();
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
 
 	pqPipelineSource *cut = builder->createFilter("filters", "Cut",
@@ -160,4 +168,26 @@ void MultiSliceView::selectIndicator()
 	this->ui.xAxisWidget->selectIndicator(name);
 	this->ui.yAxisWidget->selectIndicator(name);
 	this->ui.zAxisWidget->selectIndicator(name);
+}
+
+void MultiSliceView::updateSelectedIndicator()
+{
+	pqServerManagerSelectionModel *smsModel = pqApplicationCore::instance()->getSelectionModel();
+	pqPipelineSource *cut = qobject_cast<pqPipelineSource *>(smsModel->currentItem());
+	vtkSMProxy *plane = vtkSMPropertyHelper(cut->getProxy(),
+			"CutFunction").GetAsProxy();
+	double origin[3];
+	vtkSMPropertyHelper(plane, "Origin").Get(origin, 3);
+	if (this->ui.xAxisWidget->hasIndicator())
+	{
+		this->ui.xAxisWidget->updateIndicator(origin[0]);
+	}
+	if (this->ui.yAxisWidget->hasIndicator())
+	{
+		this->ui.yAxisWidget->updateIndicator(origin[1]);
+	}
+	if (this->ui.zAxisWidget->hasIndicator())
+	{
+		this->ui.zAxisWidget->updateIndicator(origin[2]);
+	}
 }

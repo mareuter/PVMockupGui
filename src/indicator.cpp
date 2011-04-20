@@ -64,6 +64,13 @@ int Indicator::fixVerticalPos(int ylevel)
 	return ylevel - this->half_base / 2;
 }
 
+void Indicator::updatePos(const QPoint &pos)
+{
+	// Not sure why the y position needs to have this particular offset
+	// but it seems to work best.
+	this->setPos(this->left_edge, pos.y() + this->half_base * 1.5);
+}
+
 void Indicator::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 	QPointF pos = this->mapToScene(event->pos());

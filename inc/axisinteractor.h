@@ -26,8 +26,11 @@ public:
 	AxisInteractor(QWidget *parent = 0);
 	virtual ~AxisInteractor() {}
 	ScalePicker *getScalePicker() { return this->scalePicker; }
+	void clearSelections();
+	bool hasIndicator();
 	void setInformation(QString title, double min, double max);
 	void selectIndicator(const QString &name);
+	void updateIndicator(double value);
 
 protected slots:
 	void createIndicator(const QPoint &point);
@@ -37,8 +40,6 @@ protected:
 	bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-	void clearSelections();
-
 	QwtScaleEngine *engine;
 	bool isSceneGeomInit;
 	ScalePicker *scalePicker;

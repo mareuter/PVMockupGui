@@ -92,6 +92,19 @@ void AxisInteractor::selectIndicator(const QString &name)
 	}
 }
 
+bool AxisInteractor::hasIndicator()
+{
+	QList<QGraphicsItem *> list = this->scene->selectedItems();
+	if (list.count() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void AxisInteractor::clearSelections()
 {
 	QList<QGraphicsItem *> list = this->scene->selectedItems();
@@ -102,6 +115,17 @@ void AxisInteractor::clearSelections()
 		{
 			item->setSelected(false);
 		}
+	}
+}
+
+void AxisInteractor::updateIndicator(double value)
+{
+	QPoint *pos = this->scalePicker->getLocation(value);
+	QList<QGraphicsItem *> list = this->scene->selectedItems();
+	if (list.count() > 0)
+	{
+		Indicator *item = static_cast<Indicator *>(list.at(0));
+		item->updatePos(*pos);
 	}
 }
 

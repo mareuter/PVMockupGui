@@ -22,6 +22,7 @@ public:
 	ScalePicker(QwtScaleWidget *scale = 0);
 	virtual ~ScalePicker() {}
     virtual bool eventFilter(QObject *, QEvent *);
+    QPoint *getLocation(double axisval);
 
 signals:
     void clicked(double value);

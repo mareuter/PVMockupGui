@@ -10,6 +10,7 @@
 #include "pqDataRepresentation.h"
 #include "pqLoadDataReaction.h"
 #include "pqObjectBuilder.h"
+#include "pqObjectInspectorWidget.h"
 #include "pqParaViewBehaviors.h"
 #include "pqPipelineRepresentation.h"
 #include "pqPipelineSource.h"
@@ -112,6 +113,10 @@ void mpMainWindow::setMainWindowComponentsForView()
 				SIGNAL(clicked(const QModelIndex &)),
 				static_cast<MultiSliceView *>(this->currentView),
 				SLOT(selectIndicator()));
+		QObject::connect(this->proxyTabWidget->getObjectInspector(),
+				SIGNAL(accepted()),
+				static_cast<MultiSliceView *>(this->currentView),
+				SLOT(updateSelectedIndicator()));
 	}
 }
 

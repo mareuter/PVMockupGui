@@ -36,7 +36,7 @@ bool ScalePicker::eventFilter(QObject *object, QEvent *e)
 
 void ScalePicker::mouseClicked(const QwtScaleWidget *scale, const QPoint &pos)
 {
-    QRect rect = scaleRect(scale);
+    QRect rect = this->scaleRect(scale);
 
     int margin = 10; // 10 pixels tolerance
     rect.setRect(rect.x() - margin, rect.y() - margin,
@@ -72,10 +72,53 @@ void ScalePicker::mouseClicked(const QwtScaleWidget *scale, const QPoint &pos)
                 break;
             }
         }
-        std::cout << "Axis location: " << value << std::endl;
         emit makeIndicator(pos);
         emit clicked(value);
     }
+}
+
+QPoint *ScalePicker::getLocation(double axisval)
+{
+	QwtScaleWidget *scale = static_cast<QwtScaleWidget *>(this->parent());
+	const QwtScaleDraw *sd = scale->scaleDraw();
+
+    QRect rect = this->scaleRect(scale);
+
+    int margin = 10; // 10 pixels tolerance
+    rect.setRect(rect.x() - margin, rect.y() - margin,
+        rect.width() + 2 * margin, rect.height() +  2 * margin);
+
+    int point = sd->map().transform(axisval);
+    QPoint *pos = new QPoint();
+
+    switch(scale->alignment())
+    {
+        case QwtScaleDraw::LeftScale:
+        {
+            pos->setX(rect.x());
+            pos->setY(point);
+            break;
+        }
+        case QwtScaleDraw::RightScale:
+        {
+            pos->setX(rect.x());
+            pos->setY(point);
+            break;
+        }
+        case QwtScaleDraw::BottomScale:
+        {
+            pos->setX(point);
+            pos->setY(rect.y());
+            break;
+        }
+        case QwtScaleDraw::TopScale:
+        {
+            pos->setX(point);
+            pos->setY(rect.y());
+            break;
+        }
+    }
+    return pos;
 }
 
 // The rect of a scale without the title

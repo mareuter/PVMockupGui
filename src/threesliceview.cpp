@@ -65,7 +65,7 @@ void ThreeSliceView::render()
 	this->renderAll();
 }
 
-void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
+void ThreeSliceView::makeSlice(IView::Direction i, pqRenderView *view,
 		pqPipelineSource *cut, pqPipelineRepresentation *repr)
 {
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
@@ -82,7 +82,7 @@ void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
 	double orient[3], up[3];
 	switch(i)
 	{
-	case ThreeSliceView::X:
+	case IView::X:
 		orient[0] = 1.0;
 		orient[1] = 0.0;
 		orient[2] = 0.0;
@@ -90,7 +90,7 @@ void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
 		up[1] = 0.0;
 		up[2] = 1.0;
 		break;
-	case ThreeSliceView::Y:
+	case IView::Y:
 		orient[0] = 0.0;
 		orient[1] = 1.0;
 		orient[2] = 0.0;
@@ -98,7 +98,7 @@ void ThreeSliceView::makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
 		up[1] = 0.0;
 		up[2] = 1.0;
 		break;
-	case ThreeSliceView::Z:
+	case IView::Z:
 		orient[0] = 0.0;
 		orient[1] = 0.0;
 		orient[2] = 1.0;
@@ -118,12 +118,9 @@ void ThreeSliceView::makeThreeSlice()
 {
 	this->origSource = pqActiveObjects::instance().activeSource();
 
-	this->makeSlice(ThreeSliceView::X, this->xView, this->xCut,
-			this->xCutRepr);
-	this->makeSlice(ThreeSliceView::Y, this->yView, this->yCut,
-			this->yCutRepr);
-	this->makeSlice(ThreeSliceView::Z, this->zView, this->zCut,
-			this->zCutRepr);
+	this->makeSlice(IView::X, this->xView, this->xCut, this->xCutRepr);
+	this->makeSlice(IView::Y, this->yView, this->yCut, this->yCutRepr);
+	this->makeSlice(IView::Z, this->zView, this->zCut, this->zCutRepr);
 }
 
 void ThreeSliceView::renderAll()

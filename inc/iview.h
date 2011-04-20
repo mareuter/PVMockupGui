@@ -12,6 +12,8 @@ public:
 	virtual pqRenderView *createRenderView(QWidget *container);
 	virtual pqRenderView *getView() = 0;
 	virtual void render() = 0;
+
+    enum Direction {X, Y, Z};
 };
 
 #endif /* IVIEW_H_ */

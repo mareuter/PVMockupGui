@@ -21,15 +21,13 @@ public:
     pqRenderView* getView();
     void render();
 
-    enum Direction {X, Y, Z};
-
 protected:
     pqRenderView *create2dRenderView(QWidget *container);
 
 private:
     Q_DISABLE_COPY(ThreeSliceView);
 
-    void makeSlice(ThreeSliceView::Direction i, pqRenderView *view,
+    void makeSlice(IView::Direction i, pqRenderView *view,
     		pqPipelineSource *cut, pqPipelineRepresentation *repr);
     void makeThreeSlice();
     void renderAll();

@@ -30,6 +30,7 @@ public:
 
 protected slots:
 	void createIndicator(const QPoint &point);
+	void setIndicatorName(const QString &name);
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);

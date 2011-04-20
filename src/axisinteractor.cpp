@@ -58,6 +58,23 @@ void AxisInteractor::createIndicator(const QPoint &point)
 	this->scene->addItem(tri);
 }
 
+void AxisInteractor::setIndicatorName(const QString &name)
+{
+	QList<QGraphicsItem *> list = this->scene->items();
+	for (int i = 0; i < list.count(); ++i)
+	{
+		QGraphicsItem *item = list.at(i);
+		if (item->type() == IndicatorItemType)
+		{
+			if (item->toolTip().isEmpty())
+			{
+				// This must be the most recently added
+				item->setToolTip(name);
+			}
+		}
+	}
+}
+
 bool AxisInteractor::eventFilter(QObject *obj, QEvent *event)
 {
 	if (obj == this->ui.graphicsView)

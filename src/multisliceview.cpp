@@ -34,6 +34,13 @@ MultiSliceView::MultiSliceView(QWidget *parent) : IView(parent)
 			SIGNAL(clicked(double)), this, SLOT(makeYcut(double)));
 	QObject::connect(this->ui.zAxisWidget->getScalePicker(),
 			SIGNAL(clicked(double)), this, SLOT(makeZcut(double)));
+
+	QObject::connect(this, SIGNAL(sliceNamed(const QString &)),
+			this->ui.xAxisWidget, SLOT(setIndicatorName(const QString &)));
+	QObject::connect(this, SIGNAL(sliceNamed(const QString &)),
+			this->ui.yAxisWidget, SLOT(setIndicatorName(const QString &)));
+	QObject::connect(this, SIGNAL(sliceNamed(const QString &)),
+			this->ui.zAxisWidget, SLOT(setIndicatorName(const QString &)));
 }
 
 MultiSliceView::~MultiSliceView()
@@ -127,7 +134,9 @@ void MultiSliceView::makeCut(double origin[], double orient[])
 {
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
 
-	pqPipelineSource *cut = builder->createFilter("filters", "Cut", this->origSource);
+	pqPipelineSource *cut = builder->createFilter("filters", "Cut",
+			this->origSource);
+	emit sliceNamed(cut->getSMName());
 	pqDataRepresentation *trepr = builder->createDataRepresentation(
 			cut->getOutputPort(0),this->mainView);
 	pqPipelineRepresentation *repr = qobject_cast<pqPipelineRepresentation *>(trepr);

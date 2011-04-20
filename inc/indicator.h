@@ -16,9 +16,13 @@ class QPoint;
 class QPolygonF;
 class QRect;
 
+const int IndicatorItemType = QGraphicsItem::UserType + 1;
+
 class Indicator: public QGraphicsPolygonItem
 {
 public:
+	enum {Type = IndicatorItemType};
+
 	Indicator(QGraphicsItem *parent = 0);
 	virtual ~Indicator() {}
 	void setPoints(const QPoint &eloc, const QRect &rect);

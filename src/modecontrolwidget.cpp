@@ -37,7 +37,7 @@ void ModeControlWidget::onMultiSliceViewButtonClicked()
 {
 	emit executeSwitchViews(MULTISLICE);
 	this->ui.multiSliceButton->setEnabled(false);
-	this->ui.standardButton->setEnabled(false);
+	this->ui.standardButton->setEnabled(true);
 	this->ui.threeSliceButton->setEnabled(true);
 }
 

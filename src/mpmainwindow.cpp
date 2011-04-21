@@ -64,9 +64,6 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   this->hiddenView = this->setMainViewWidget(this->viewWidget,
 		  mpMainWindow::MULTISLICE);
   this->hiddenView->hide();
-
-  // Disable all view buttons until data load
-  emit disableViewModes();
 }
 
 mpMainWindow::~mpMainWindow()

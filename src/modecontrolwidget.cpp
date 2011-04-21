@@ -5,8 +5,6 @@ ModeControlWidget::ModeControlWidget(QWidget *parent)
 {
 	this->ui.setupUi(this);
 
-	QObject::connect(parent->parent(), SIGNAL(disableViewModes()), this,
-			SLOT(disableAll()));
 	QObject::connect(parent->parent(), SIGNAL(enableThreeSlice()), this,
 			SLOT(enableThreeSliceButton()));
 	QObject::connect(parent->parent(), SIGNAL(enableMultiSlice()), this,

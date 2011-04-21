@@ -35,7 +35,7 @@ void ModeControlWidget::enableModeButtons()
 
 void ModeControlWidget::onMultiSliceViewButtonClicked()
 {
-	emit executeSwitchViews(MULTISLICE);
+	emit executeSwitchViews(ModeControlWidget::MULTISLICE);
 	this->ui.multiSliceButton->setEnabled(false);
 	this->ui.standardButton->setEnabled(true);
 	this->ui.threeSliceButton->setEnabled(true);
@@ -43,7 +43,7 @@ void ModeControlWidget::onMultiSliceViewButtonClicked()
 
 void ModeControlWidget::onStandardViewButtonClicked()
 {
-	emit executeSwitchViews(STANDARD);
+	emit executeSwitchViews(ModeControlWidget::STANDARD);
 	this->ui.standardButton->setEnabled(false);
 	this->ui.multiSliceButton->setEnabled(true);
 	this->ui.threeSliceButton->setEnabled(true);
@@ -51,7 +51,7 @@ void ModeControlWidget::onStandardViewButtonClicked()
 
 void ModeControlWidget::onThreeSliceViewButtonClicked()
 {
-	emit executeSwitchViews(THREESLICE);
+	emit executeSwitchViews(ModeControlWidget::THREESLICE);
 	this->ui.threeSliceButton->setEnabled(false);
 	this->ui.multiSliceButton->setEnabled(true);
 	this->ui.standardButton->setEnabled(true);

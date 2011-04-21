@@ -41,7 +41,7 @@ private:
     void setupData();
 
     QPointer<pqRenderView> mainView;
-    pqPipelineSource *origSource;
+    QPointer<pqPipelineSource> origSource;
     QPointer<pqPipelineRepresentation> originSourceRepr;
     Ui::MultiSliceViewClass ui;
 };

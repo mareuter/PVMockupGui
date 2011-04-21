@@ -33,6 +33,7 @@ private:
     IView *currentView;
     IView *hiddenView;
 
+    void removeProxyTabWidgetConnections();
     void setMainWindowComponentsForView();
     IView *setMainViewWidget(QWidget *container, ModeControlWidget::Views v);
     void swapViews();

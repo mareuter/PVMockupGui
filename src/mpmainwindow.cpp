@@ -35,6 +35,9 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
 {
   this->setupUi(this);
 
+  // Unset the connections since the views aren't up yet.
+  this->removeProxyTabWidgetConnections();
+
   new pqParaViewBehaviors(this, this);
 
   // We want the actionLoad to result in the showing up the ParaView's OpenData
@@ -62,15 +65,21 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
 
   // Set the three slice view as hidden view for later use
   //this->hiddenView = this->setMainViewWidget(this->viewWidget,
-	//	  mpMainWindow::THREESLICE);
+  //ModeControlWidget::THREESLICE);
   //this->hiddenView = this->setMainViewWidget(this->viewWidget,
-	//	  mpMainWindow::MULTISLICE);
+	//	  ModeControlWidget::MULTISLICE);
   //this->hiddenView->hide();
 }
 
 mpMainWindow::~mpMainWindow()
 {
 
+}
+
+void mpMainWindow::removeProxyTabWidgetConnections()
+{
+	QObject::disconnect(&pqActiveObjects::instance(), 0,
+			this->proxyTabWidget, 0);
 }
 
 IView* mpMainWindow::setMainViewWidget(QWidget *container,
@@ -103,7 +112,8 @@ IView* mpMainWindow::setMainViewWidget(QWidget *container,
 
 void mpMainWindow::setMainWindowComponentsForView()
 {
-	// Extra setup stuff to hook up standard view to other items
+	// Extra setup stuff to hook up view to other items
+	this->proxyTabWidget->setupDefaultConnections();
 	this->proxyTabWidget->setView(this->currentView->getView());
 	this->proxyTabWidget->setShowOnAccept(true);
 	this->pipelineBrowser->setActiveView(this->currentView->getView());
@@ -137,18 +147,28 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
   this->originSourceRepr->colorByArray("signal",
 		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
-  
+
   this->currentView->render();
   emit enableModeButtons();
 }
 
 void mpMainWindow::switchViews(ModeControlWidget::Views v)
 {
-	this->currentView->hide();
+	this->removeProxyTabWidgetConnections();
+	this->hiddenView = this->setMainViewWidget(this->viewWidget, v);
+	this->hiddenView->hide();
 	this->swapViews();
 	this->currentView->show();
+	this->hiddenView->hide();
 	this->setMainWindowComponentsForView();
 	this->currentView->render();
+	this->hiddenView->close();
+	delete this->hiddenView;
+	if (this->currentView->inherits("ThreeSliceView") ||
+			this->currentView->inherits("StandardView"))
+	{
+		this->proxyTabWidget->getObjectInspector()->accept();
+	}
 }
 
 void mpMainWindow::swapViews()

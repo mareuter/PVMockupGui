@@ -9,7 +9,10 @@
 #include "pqPipelineSource.h"
 #include "pqProxyTabWidget.h"
 #include "pqRenderView.h"
+#include "pqServer.h"
+#include "pqServerManagerModel.h"
 #include "vtkDataObject.h"
+#include "vtkProperty.h"
 #include "vtkSMPropertyHelper.h"
 #include "vtkSMProxy.h"
 
@@ -27,7 +30,24 @@ ThreeSliceView::ThreeSliceView(QWidget *parent) : IView(parent)
 
 ThreeSliceView::~ThreeSliceView()
 {
-
+	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
+	pqServer *server = pqActiveObjects::instance().activeServer();
+	pqServerManagerModel *smModel = pqApplicationCore::instance()->getServerManagerModel();
+	QList<pqPipelineSource *> sources;
+	QList<pqPipelineSource *>::Iterator source;
+	sources = smModel->findItems<pqPipelineSource *>(server);
+	for (source = sources.begin(); source != sources.end(); ++source)
+	{
+		const QString name = (*source)->getSMName();
+		if (name.startsWith("Slice"))
+		{
+			builder->destroy(*source);
+		}
+	}
+	builder->destroy(this->mainView);
+	builder->destroy(this->xView);
+	builder->destroy(this->yView);
+	builder->destroy(this->zView);
 }
 
 pqRenderView* ThreeSliceView::create2dRenderView(QWidget* widget)
@@ -117,6 +137,15 @@ void ThreeSliceView::makeSlice(IView::Direction i, pqRenderView *view,
 void ThreeSliceView::makeThreeSlice()
 {
 	this->origSource = pqActiveObjects::instance().activeSource();
+
+	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
+	pqDataRepresentation *drep = builder->createDataRepresentation(
+			this->origSource->getOutputPort(0), this->mainView);
+	vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
+	drep->getProxy()->UpdateVTKObjects();
+	this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
+	this->originSourceRepr->colorByArray("signal",
+			vtkDataObject::FIELD_ASSOCIATION_CELLS);
 
 	this->makeSlice(IView::X, this->xView, this->xCut, this->xCutRepr);
 	this->makeSlice(IView::Y, this->yView, this->yCut, this->yCutRepr);

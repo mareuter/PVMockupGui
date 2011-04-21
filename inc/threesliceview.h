@@ -32,7 +32,8 @@ private:
     void makeThreeSlice();
     void renderAll();
 
-    pqPipelineSource *origSource;
+    QPointer<pqPipelineSource> origSource;
+    QPointer<pqPipelineRepresentation> originSourceRepr;
 
     QPointer<pqRenderView> mainView;
     QPointer<pqPipelineSource> xCut;

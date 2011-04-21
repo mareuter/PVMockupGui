@@ -15,7 +15,7 @@ public:
     enum Views {STANDARD, THREESLICE, MULTISLICE};
 
 signals:
-	void executeSwitchViews(Views v);
+	void executeSwitchViews(ModeControlWidget::Views v);
 
 protected slots:
 	void disableAll();

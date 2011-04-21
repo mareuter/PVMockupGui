@@ -61,9 +61,9 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   // Set the three slice view as hidden view for later use
   //this->hiddenView = this->setMainViewWidget(this->viewWidget,
 	//	  mpMainWindow::THREESLICE);
-  this->hiddenView = this->setMainViewWidget(this->viewWidget,
-		  mpMainWindow::MULTISLICE);
-  this->hiddenView->hide();
+  //this->hiddenView = this->setMainViewWidget(this->viewWidget,
+	//	  mpMainWindow::MULTISLICE);
+  //this->hiddenView->hide();
 }
 
 mpMainWindow::~mpMainWindow()
@@ -136,8 +136,7 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
   
   this->currentView->render();
-  //emit enableThreeSlice();
-  emit enableMultiSlice();
+  emit enableModeButtons();
 }
 
 void mpMainWindow::switchViews()

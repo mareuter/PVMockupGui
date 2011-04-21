@@ -26,8 +26,7 @@ protected slots:
 
 signals:
 	void disableViewModes();
-	void enableMultiSlice();
-	void enableThreeSlice();
+	void enableModeButtons();
 
 private:
     Q_DISABLE_COPY(mpMainWindow);

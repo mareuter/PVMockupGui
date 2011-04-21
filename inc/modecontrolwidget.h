@@ -17,8 +17,7 @@ signals:
 
 protected slots:
 	void disableAll();
-	void enableMultiSliceButton();
-	void enableThreeSliceButton();
+	void enableModeButtons();
 	void onMultiSliceViewButtonClicked();
     void onStandardViewButtonClicked();
     void onThreeSliceViewButtonClicked();

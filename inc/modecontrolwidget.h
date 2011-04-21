@@ -12,6 +12,8 @@ public:
     ModeControlWidget(QWidget *parent = 0);
     virtual ~ModeControlWidget();
 
+    enum Views {STANDARD, THREESLICE, MULTISLICE};
+
 signals:
 	void executeSwitchViews();
 

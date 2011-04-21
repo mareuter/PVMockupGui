@@ -1,5 +1,6 @@
 #include "mpmainwindow.h"
 
+#include "modecontrolwidget.h"
 #include "multisliceview.h"
 #include "standardview.h"
 #include "threesliceview.h"
@@ -55,7 +56,7 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
 
   // Set the standard view as the default
   this->currentView = this->setMainViewWidget(this->viewWidget,
-		  mpMainWindow::STANDARD);
+		  ModeControlWidget::STANDARD);
   this->setMainWindowComponentsForView();
 
   // Set the three slice view as hidden view for later use
@@ -71,24 +72,25 @@ mpMainWindow::~mpMainWindow()
 
 }
 
-IView* mpMainWindow::setMainViewWidget(QWidget *container, Views v)
+IView* mpMainWindow::setMainViewWidget(QWidget *container,
+		ModeControlWidget::Views v)
 {
 	IView *view;
 	switch(v)
 	{
-	case mpMainWindow::STANDARD:
+	case ModeControlWidget::STANDARD:
 	{
 		StandardView *sv = new StandardView(container);
 		view = sv;
 	}
 	break;
-	case mpMainWindow::THREESLICE:
+	case ModeControlWidget::THREESLICE:
 	{
 		ThreeSliceView *tsv = new ThreeSliceView(container);
 		view = tsv;
 	}
 	break;
-	case mpMainWindow::MULTISLICE:
+	case ModeControlWidget::MULTISLICE:
 	{
 		MultiSliceView *msv = new MultiSliceView(container);
 		view = msv;

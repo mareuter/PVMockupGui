@@ -15,8 +15,6 @@ class mpMainWindow : public QMainWindow, public Ui::mpMainWindow
     Q_OBJECT
 
 public:
-    enum Views {STANDARD, THREESLICE, MULTISLICE};
-
     mpMainWindow(QWidget *parent = 0);
     virtual ~mpMainWindow();
 
@@ -36,7 +34,7 @@ private:
     IView *hiddenView;
 
     void setMainWindowComponentsForView();
-    IView *setMainViewWidget(QWidget *container, Views v);
+    IView *setMainViewWidget(QWidget *container, ModeControlWidget::Views v);
     void swapViews();
 };
 

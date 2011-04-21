@@ -20,7 +20,7 @@ public:
 
 protected slots:
     void onDataLoaded(pqPipelineSource *);
-    void switchViews();
+    void switchViews(ModeControlWidget::Views v);
 
 signals:
 	void disableViewModes();

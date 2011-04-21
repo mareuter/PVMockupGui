@@ -43,8 +43,9 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   QObject::connect(dataLoader, SIGNAL(loadedData(pqPipelineSource*)),
     this, SLOT(onDataLoaded(pqPipelineSource*)));
 
-  QObject::connect(this->modeControlWidget, SIGNAL(executeSwitchViews()),
-		  this, SLOT(switchViews()));
+  QObject::connect(this->modeControlWidget,
+		  SIGNAL(executeSwitchViews(ModeControlWidget::Views)),
+		  this, SLOT(switchViews(ModeControlWidget::Views)));
 
   //pqUndoReaction
   //QObject::connect()
@@ -141,7 +142,7 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   emit enableModeButtons();
 }
 
-void mpMainWindow::switchViews()
+void mpMainWindow::switchViews(ModeControlWidget::Views v)
 {
 	this->currentView->hide();
 	this->swapViews();

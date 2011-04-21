@@ -15,7 +15,7 @@ public:
     enum Views {STANDARD, THREESLICE, MULTISLICE};
 
 signals:
-	void executeSwitchViews();
+	void executeSwitchViews(Views v);
 
 protected slots:
 	void disableAll();

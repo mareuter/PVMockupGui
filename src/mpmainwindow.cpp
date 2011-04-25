@@ -118,6 +118,7 @@ void mpMainWindow::onDataLoaded(pqPipelineSource* source)
   this->originSource = source;
 
   this->currentView->render();
+  this->proxyTabWidget->getObjectInspector()->accept();
   emit enableModeButtons();
 }
 

@@ -18,7 +18,6 @@ signals:
 	void executeSwitchViews(ModeControlWidget::Views v);
 
 protected slots:
-	void disableAll();
 	void enableModeButtons();
 	void onMultiSliceViewButtonClicked();
     void onStandardViewButtonClicked();

@@ -20,13 +20,6 @@ ModeControlWidget::~ModeControlWidget()
 
 }
 
-void ModeControlWidget::disableAll()
-{
-	this->ui.multiSliceButton->setEnabled(false);
-	this->ui.standardButton->setEnabled(false);
-	this->ui.threeSliceButton->setEnabled(false);
-}
-
 void ModeControlWidget::enableModeButtons()
 {
 	this->ui.multiSliceButton->setEnabled(true);

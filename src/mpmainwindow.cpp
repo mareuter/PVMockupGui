@@ -13,16 +13,12 @@
 #include "pqObjectBuilder.h"
 #include "pqObjectInspectorWidget.h"
 #include "pqParaViewBehaviors.h"
-#include "pqPipelineRepresentation.h"
 #include "pqPipelineSource.h"
 #include "pqPluginManager.h"
 #include "pqRenderView.h"
 #include "pqServerResource.h"
 #include "pqStandardViewModules.h"
-#include "vtkDataObject.h"
-#include "vtkProperty.h"
 #include "vtkPVDataInformation.h"
-#include "vtkSMPropertyHelper.h"
 #include "vtkSMProxyManager.h"
 #include "vtkSMReaderFactory.h"
 
@@ -132,21 +128,11 @@ void mpMainWindow::setMainWindowComponentsForView()
 
 void mpMainWindow::onDataLoaded(pqPipelineSource* source)
 {
-  pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
   if (this->originSource)
   {
-      builder->destroy(this->originSource);
+	  pqApplicationCore::instance()->getObjectBuilder()->destroy(this->originSource);
   }
   this->originSource = source;
-
-  // Show the data
-  pqDataRepresentation *drep = builder->createDataRepresentation(
-		  this->originSource->getOutputPort(0), this->currentView->getView());
-  vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
-  drep->getProxy()->UpdateVTKObjects();
-  this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
-  this->originSourceRepr->colorByArray("signal",
-		  vtkDataObject::FIELD_ASSOCIATION_CELLS);
 
   this->currentView->render();
   emit enableModeButtons();

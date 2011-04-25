@@ -2,9 +2,14 @@
 
 #include "pqActiveObjects.h"
 #include "pqApplicationCore.h"
+#include "pqDataRepresentation.h"
 #include "pqObjectBuilder.h"
+#include "pqPipelineRepresentation.h"
 #include "pqPipelineSource.h"
 #include "pqRenderView.h"
+#include "vtkDataObject.h"
+#include "vtkProperty.h"
+#include "vtkSMPropertyHelper.h"
 
 #include <QHBoxLayout>
 
@@ -35,6 +40,18 @@ pqRenderView* StandardView::getView()
 
 void StandardView::render()
 {
+	this->origSource = pqActiveObjects::instance().activeSource();
+	pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
+
+	// Show the data
+	pqDataRepresentation *drep = builder->createDataRepresentation(
+			this->origSource->getOutputPort(0), this->view);
+	vtkSMPropertyHelper(drep->getProxy(), "Representation").Set(VTK_SURFACE);
+	drep->getProxy()->UpdateVTKObjects();
+	this->originSourceRepr = qobject_cast<pqPipelineRepresentation*>(drep);
+	this->originSourceRepr->colorByArray("signal",
+			vtkDataObject::FIELD_ASSOCIATION_CELLS);
+
 	this->view->resetDisplay();
 	this->view->render();
 }
@@ -50,5 +67,5 @@ void StandardView::onRebinButtonClicked()
 {
     pqObjectBuilder* builder = pqApplicationCore::instance()->getObjectBuilder();
     this->rebinCut = builder->createFilter("filters", "RebinningCutter",
-    		pqActiveObjects::instance().activeSource());
+    		this->origSource);
 }

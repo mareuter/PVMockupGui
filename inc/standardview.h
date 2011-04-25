@@ -6,6 +6,7 @@
 #include "iview.h"
 #include "ui_standardview.h"
 
+class pqPipelineRepresentation;
 class pqPipelineSource;
 class pqRenderView;
 
@@ -26,6 +27,8 @@ protected slots:
 
 private:
     Q_DISABLE_COPY(StandardView);
+    QPointer<pqPipelineSource> origSource;
+    QPointer<pqPipelineRepresentation> originSourceRepr;
     QPointer<pqPipelineSource> rebinCut;
     QPointer<pqRenderView> view;
 };

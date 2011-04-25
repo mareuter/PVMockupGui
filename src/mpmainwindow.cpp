@@ -8,21 +8,15 @@
 
 #include "pqActiveObjects.h"
 #include "pqApplicationCore.h"
-#include "pqDataRepresentation.h"
 #include "pqLoadDataReaction.h"
 #include "pqObjectBuilder.h"
 #include "pqObjectInspectorWidget.h"
 #include "pqParaViewBehaviors.h"
 #include "pqPipelineSource.h"
-#include "pqPluginManager.h"
 #include "pqRenderView.h"
-#include "pqServerResource.h"
-#include "pqStandardViewModules.h"
-#include "vtkPVDataInformation.h"
 #include "vtkSMProxyManager.h"
 #include "vtkSMReaderFactory.h"
 
-#include <QHBoxLayout>
 #include <QModelIndex>
 
 #include <iostream>
@@ -58,13 +52,6 @@ mpMainWindow::mpMainWindow(QWidget *parent) : QMainWindow(parent)
   this->currentView = this->setMainViewWidget(this->viewWidget,
 		  ModeControlWidget::STANDARD);
   this->setMainWindowComponentsForView();
-
-  // Set the three slice view as hidden view for later use
-  //this->hiddenView = this->setMainViewWidget(this->viewWidget,
-  //ModeControlWidget::THREESLICE);
-  //this->hiddenView = this->setMainViewWidget(this->viewWidget,
-	//	  ModeControlWidget::MULTISLICE);
-  //this->hiddenView->hide();
 }
 
 mpMainWindow::~mpMainWindow()
@@ -81,29 +68,25 @@ void mpMainWindow::removeProxyTabWidgetConnections()
 IView* mpMainWindow::setMainViewWidget(QWidget *container,
 		ModeControlWidget::Views v)
 {
-	IView *view;
 	switch(v)
 	{
 	case ModeControlWidget::STANDARD:
 	{
-		StandardView *sv = new StandardView(container);
-		view = sv;
+		return new StandardView(container);
 	}
 	break;
 	case ModeControlWidget::THREESLICE:
 	{
-		ThreeSliceView *tsv = new ThreeSliceView(container);
-		view = tsv;
+		return new ThreeSliceView(container);
 	}
 	break;
 	case ModeControlWidget::MULTISLICE:
 	{
-		MultiSliceView *msv = new MultiSliceView(container);
-		view = msv;
+		return new MultiSliceView(container);
 	}
-	break;
+	default:
+		return NULL;
 	}
-	return view;
 }
 
 void mpMainWindow::setMainWindowComponentsForView()

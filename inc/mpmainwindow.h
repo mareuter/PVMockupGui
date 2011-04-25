@@ -7,7 +7,6 @@
 
 class IView;
 
-class pqPipelineRepresentation;
 class pqPipelineSource;
 
 class mpMainWindow : public QMainWindow, public Ui::mpMainWindow
@@ -29,7 +28,6 @@ signals:
 private:
     Q_DISABLE_COPY(mpMainWindow);
     QPointer<pqPipelineSource> originSource;
-    QPointer<pqPipelineRepresentation> originSourceRepr;
     IView *currentView;
     IView *hiddenView;
 

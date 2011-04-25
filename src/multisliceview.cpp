@@ -12,6 +12,7 @@
 #include "pqPipelineRepresentation.h"
 #include "pqPipelineSource.h"
 #include "pqRenderView.h"
+#include "pqServerManagerModel.h"
 #include "pqServerManagerSelectionModel.h"
 #include "vtkDataObject.h"
 #include "vtkProperty.h"
@@ -47,7 +48,21 @@ MultiSliceView::MultiSliceView(QWidget *parent) : IView(parent)
 
 MultiSliceView::~MultiSliceView()
 {
-
+	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
+	pqServer *server = pqActiveObjects::instance().activeServer();
+	pqServerManagerModel *smModel = pqApplicationCore::instance()->getServerManagerModel();
+	QList<pqPipelineSource *> sources;
+	QList<pqPipelineSource *>::Iterator source;
+	sources = smModel->findItems<pqPipelineSource *>(server);
+	for (source = sources.begin(); source != sources.end(); ++source)
+	{
+		const QString name = (*source)->getSMName();
+		if (name.startsWith("Slice"))
+		{
+			builder->destroy(*source);
+		}
+	}
+	builder->destroy(this->mainView);
 }
 
 pqRenderView* MultiSliceView::getView()

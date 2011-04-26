@@ -31,19 +31,7 @@ ThreeSliceView::ThreeSliceView(QWidget *parent) : IView(parent)
 ThreeSliceView::~ThreeSliceView()
 {
 	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
-	pqServer *server = pqActiveObjects::instance().activeServer();
-	pqServerManagerModel *smModel = pqApplicationCore::instance()->getServerManagerModel();
-	QList<pqPipelineSource *> sources;
-	QList<pqPipelineSource *>::Iterator source;
-	sources = smModel->findItems<pqPipelineSource *>(server);
-	for (source = sources.begin(); source != sources.end(); ++source)
-	{
-		const QString name = (*source)->getSMName();
-		if (name.startsWith("Slice"))
-		{
-			builder->destroy(*source);
-		}
-	}
+	this->destroyFilter(builder, QString("Slice"));
 	builder->destroy(this->mainView);
 	builder->destroy(this->xView);
 	builder->destroy(this->yView);

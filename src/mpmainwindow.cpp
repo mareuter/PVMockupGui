@@ -131,9 +131,9 @@ void mpMainWindow::switchViews(ModeControlWidget::Views v)
 	this->currentView->show();
 	this->hiddenView->hide();
 	this->setMainWindowComponentsForView();
-	this->currentView->render();
 	this->hiddenView->close();
 	delete this->hiddenView;
+	this->currentView->render();
 	if (this->currentView->inherits("ThreeSliceView") ||
 			this->currentView->inherits("StandardView"))
 	{

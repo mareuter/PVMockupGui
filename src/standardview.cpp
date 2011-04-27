@@ -30,7 +30,9 @@ StandardView::StandardView(QWidget *parent) : IView(parent)
 
 StandardView::~StandardView()
 {
-	pqApplicationCore::instance()->getObjectBuilder()->destroy(this->view);
+	pqObjectBuilder *builder = pqApplicationCore::instance()->getObjectBuilder();
+	this->destroyFilter(builder, QString("Slice"));
+	builder->destroy(this->view);
 }
 
 pqRenderView* StandardView::getView()

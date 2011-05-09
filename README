@@ -4,6 +4,8 @@ the code is due to be embedded into the MantidPlot GUI.
 
 To run the program effectively, the Mantid ParaView plugins need to be brought
 in by the following process. A directory should be created that contains 
-symbolic links to the Mantid ParaView plugins. Next, the PV_PLUGIN_DIR 
-environmental variable needs to be set. Once these two steps are completed, 
-the PVMockupGui executable should function properly.
+symbolic links to the Mantid ParaView plugins. Next, the PV_PLUGIN_PATH 
+environmental variable needs to be set. After this, the MANTIDPATH 
+environmental variable needs to be set to the location of the actual plugin 
+libraries. Once these three steps are completed, the PVMockupGui executable 
+should function properly.
